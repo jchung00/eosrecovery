@@ -79,6 +79,11 @@ namespace recovery {
             explicit recovery_contract(action_name self);
 
             //@abi action
+            void setenv(uint32_t set_recovery_delay_time){
+
+            }
+
+            //@abi action
             void setrecovery(account_name owner, const vector<account_name>& backups, const string& cell_hash){
             }
 

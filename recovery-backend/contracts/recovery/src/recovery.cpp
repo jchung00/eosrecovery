@@ -3,8 +3,21 @@
 namespace recovery{
     recovery_contract::recovery_contract(action_name self) : contract(self), m_recovery_env(self, self) {
         if (m_recovery_env.exists() == false) {
-            m_recovery_env.set( wps_env(), _self );
+            m_recovery_env.set( recovery_env(), _self );
         }
+    }
+
+    //@abi action
+    void setenv(uint32_t set_recovery_delay_time){
+        require_auth(_self);
+
+        eosio_assert(set_recovery_delay_time >= 1 && set_recovery_delay_time <= 30, "Invalid delay time.");
+
+        auto recovery_env = m_recovery_env.get();
+
+        recovery_env.set_recovery_delay_time = set_recovery_delay_time;
+
+        m_recovery_env.set( recovery_env, _self );
     }
 
     //@abi action
@@ -43,15 +56,15 @@ namespace recovery{
 
             transaction out{};
 
-            out.actions.emplace_back(permmision_level {_self, N(active)}, N(recoverykeys), N(chgrecovery),
-            std::make_tuple(owner));
+            out.actions.emplace_back(permission_level {_self, N(active)}, N(recoverykeys), N(chgrecovery),
+            std::make_tuple(owner, backups));
             out.delay_sec = recovery_env.set_recovery_delay_time;
             out.send(owner, owner, true);
         }
     }
 
     //@abi action
-    void chgrecovery(account_name owner){
+    void chgrecovery(account_name owner, const vector<account_name>& backups){
         require_auth(owner);
 
         recovery_table recovery_accounts(_self, _self);
@@ -65,7 +78,9 @@ namespace recovery{
         eosio_assert(current_time - (*itr).last_set_time > recovery_env.set_recovery_delay_time,
                      "Change recovery time has not been exceeded.");
 
-        recovery_accounts.erase(itr);
+        recovery_accounts.modify(itr, 0, [&](auto& recovery_info){
+           recovery_info.backups = backups;
+        });
     }
 
     //@abi action
@@ -101,6 +116,8 @@ namespace recovery{
         else{
             uint64_t time_since_recover_start = current_time - (*itr).recover_start_time;
 
+            eosio_assert(new_key == (*itr_account).new_key, "Proposed public key is not the same.");
+
             if(time_since_recover_start >= seconds_per_day){
                 in_recovery.erase(itr);
             }
@@ -110,9 +127,9 @@ namespace recovery{
                         in_recovery_info.signed_recovery = (*itr).signed_recovery.push_back(recoverer);
                     });
                     if((*itr).signed_recovery.size() >= (((*itr).backups.size() * 2) / 3) + 1){
-                        /*
-                         TO-DO UPDATE AUTH
-                         */
+                        authority auth{ 1, {newKey, 1}, {} };
+                        eosio::action(eosio::permission_level{_self, N(active)}, N(eosio), N(updateauth),
+                        std::make_tuple( owner, active, owner, auth)).send();
                         in_recovery.erase(itr);
                     }
                 }
@@ -129,4 +146,4 @@ namespace recovery{
     }
 } //recovery
 
-EOSIO_ABI( recovery::recovery_contract, (addrecovery)(rmvrecovery)(recover))
+EOSIO_ABI( recovery::recovery_contract, (setenv)(setrecovery)(chgrecovery)(recover))
