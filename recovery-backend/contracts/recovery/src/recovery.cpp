@@ -135,18 +135,18 @@ namespace recovery{
             else{
                 if(agree) {
                     in_recovery.modify(itr_account, 0, [&](auto& in_recovery_info) {
-                        in_recovery_info.signed_recovery = (*itr_account).signed_recovery.push_back(recoverer);
+                        in_recovery_info.signed_recovery.push_back(recoverer);
                     });
                     if((*itr_account).signed_recovery.size() >= (((*itr_account).backups.size() * 2) / 3) + 1){
                         authority auth{ 1, {newKey, 1}, {} };
                         eosio::action(eosio::permission_level{_self, N(active)}, N(eosio), N(updateauth),
                         std::make_tuple( owner, active, owner, auth)).send();
-                        in_recovery.erase(itr);
+                        in_recovery.erase(itr_account);
                     }
                 }
                 else{
-                    in_recovery.modify(itr, 0, [&](auto& in_recovery_info) {
-                        in_recovery_info.signed_recovery = (*itr_account).declined_recovery.push_back(recoverer);
+                    in_recovery.modify(itr_account, 0, [&](auto& in_recovery_info) {
+                        in_recovery_info.signed_recovery.push_back(recoverer);
                     });
                     if((*itr_account).declined_recovery.size() >= (((*itr_account).backups.size() * 2) / 3) + 1){
                         in_recovery.erase(itr_account);
