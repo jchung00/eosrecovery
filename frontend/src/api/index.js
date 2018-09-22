@@ -98,17 +98,6 @@ class API {
         limit: 200
       }).then(result => result.rows)
     }
-  
-    getWpsGlobal () {
-      return this.eos.getTableRows({
-        json: true,
-        code: this.account,
-        scope: this.account,
-        table: 'wpsglobal',
-        table_key: '',
-        limit: 200
-      }).then(result => result.rows)
-    }
   }
   
   export default API

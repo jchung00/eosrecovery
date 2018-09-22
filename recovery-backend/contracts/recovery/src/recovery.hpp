@@ -36,7 +36,7 @@ namespace recovery {
 
     class recovery_contract : public eosio::contract{
         public:
-            explicit recovery_contract(action_name self);
+            token( account_name self ):contract(self){};
 
             //@abi action
             void addrecovery(){
