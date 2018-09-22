@@ -8,8 +8,22 @@ namespace recovery{
     }
 
     //@abi action
-    void addrecovery(){
+    void addrecovery(account_name owner, const vector<account_name>& backups){
+        require_auth(owner);
 
+        recovery_table recovery_accounts(_self, _self);
+
+        auto itr = recovery_accounts.find(owner);
+        eosio_assert(itr==recovery_accounts.end(), "Account already has recovery set up.");
+
+        for(int i=0; i<backups.size(); i++){
+            eosio_assert(is_account(backups.at(i)));
+        }
+
+        recovery_accounts.emplace(owner, [&](auto& recovery_info){
+           recovery_info.owner = owner;
+           recovery_info.backups = backups;
+        });
     }
 
     //@abi action

@@ -19,15 +19,19 @@ namespace recovery {
 
     //@abi table
     struct recovery_info{
+        account_name owner;
         vector<account_name> backups;
+        uint64_t primary_key() const { return owner; }
+        EOSLIB_SERIALIZE( recovery_info, (owner)(backups) )
     };
 
     //@abi table
     struct recovery_env {
         uint32_t days_remove_recovery;
+        EOSLIB_SERIALIZE( recovery_env, (days_remove_recovery));
     };
 
-    typedef eosio::multi_index< N(recoverinfo), recovery_env > recovery_table;
+    typedef eosio::multi_index< N(recoverinfo), recovery_info > recovery_table;
     typedef eosio::singleton< N(recoveryenv), recovery_env > recovery_env_singleton;
 
     class recovery_contract : public eosio::contract{
