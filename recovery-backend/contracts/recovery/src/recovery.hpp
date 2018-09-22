@@ -1,5 +1,6 @@
 #pragma once
 
+#include <eosiolib/eosio.hpp>
 #include <eosiolib/types.hpp>
 #include <eosiolib/print.hpp>
 #include <eosiolib/multi_index.hpp>

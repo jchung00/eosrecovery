@@ -31,7 +31,7 @@ namespace recovery{
         auto itr = recovery_accounts.find(owner);
 
         for(int i=0; i<backups.size(); i++){
-            eosio_assert(is_account(backups.at(i)));
+            eosio_assert(is_account(backups.at(i)), "Invalid recovery account.");
         }
 
         auto recovery_env = m_recovery_env.get();
