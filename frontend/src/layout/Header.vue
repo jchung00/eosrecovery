@@ -13,7 +13,7 @@
       <!-- Left elements -->
       <b-navbar-nav>
         <b-nav-item to="partners" class="mx-1">Recovery Partners</b-nav-item>
-        <b-nav-item to="recover" class="mx-1">Recover</b-nav-item>
+        <b-nav-item to="recover" class="mx-1">Recover Account</b-nav-item>
       </b-navbar-nav>
 
       <!-- Right elements -->

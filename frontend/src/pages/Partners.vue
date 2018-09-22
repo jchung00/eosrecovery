@@ -52,10 +52,10 @@
                     <tr>
                         <td>{{ rows.length + 1 }}</td>
                         <td>
-                            <input v-model="newUsername"/>
+                            <input v-model="newUsername" required/>
                         </td>
                         <td>
-                            <input v-model="newPermission"/>
+                            <input v-model="newPermission" required/>
                         </td>
                         <td>
                             <b-button
