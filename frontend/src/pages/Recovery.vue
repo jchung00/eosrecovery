@@ -3,13 +3,13 @@
         <div class="jumbotron jumbotron-fluid">
             <div class="container">
                 <h1 class="display-6">
-                    Account Name here
+                Account Name here
                 </h1>
                 <p>
                     Setup your account recovery partners
                 </p>
             </div>
-            <!-- End of jumbotron -->
+            <!-- End of Jumbotron -->
         </div>
         <div class="container">
             <h3>Existing Recovery Partners</h3>
@@ -63,11 +63,13 @@
                     </tbody>
                 </table>
 
-
                 <b-button
                         variant="success"
                         class="mb-2"
-                >Add recovery Partner</b-button>
+                        id="custom-button"
+                >
+                Add recovery Partner
+                </b-button>
             </div>
         </div>
     </main>

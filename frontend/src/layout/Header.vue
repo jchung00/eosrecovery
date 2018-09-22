@@ -4,7 +4,7 @@
 
     <!--Brand Logo-->
     <b-navbar-brand to="/">
-      <img src="@/assets/eosar-logo.png" />
+      Home
     </b-navbar-brand>
 
     <b-navbar-toggle target="nav_collapse"></b-navbar-toggle>
@@ -79,12 +79,7 @@ export default {
 
 #nav-logo {
   position: relative;
-  z-index: -1;
-}
-
-/* logo display bug, better solution tbf */
-.navbar-brand {
-  height: 44px;
+  z-index: 6;
 }
 
 #nav_collapse {
