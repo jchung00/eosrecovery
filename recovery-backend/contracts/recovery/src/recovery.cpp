@@ -93,7 +93,7 @@ namespace recovery{
         auto itr = recovery_accounts.find(owner);
         eosio_assert(itr!=recovery_accounts.end(), "Account does not have recovery set up.");
 
-        auto itr_backup = std::find((*itr).backups.begin(), (*itr).backups.end(), requester);
+        auto itr_backup = std::find((*itr).backups.begin(), (*itr).backups.end(), recoverer);
         eosio_assert(itr_backup != (*itr).backups.end(), "Account is not registered as one of the fallbacks.");
 
         in_recovery_table in_recovery(_self, _self);
@@ -102,7 +102,7 @@ namespace recovery{
         auto current_time = now();
 
         if(itr_account == in_recovery.end()){
-            in_recovery.emplace(requester, [&](auto& in_recovery_info){
+            in_recovery.emplace(recoverer, [&](auto& in_recovery_info){
                 in_recovery_info.owner = owner;
                 in_recovery_info.backups = (*itr).backups;
                 in_recovery_info.new_key = new_key;
