@@ -96,7 +96,7 @@ export default {
   },
 
   methods: {
-      addPartner (partner) {
+      addPartner () {
           if (this.newUsername && this.newPermission) {
             this.rows.push({
                 username: this.newUsername,
