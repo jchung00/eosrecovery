@@ -102,15 +102,26 @@ namespace recovery{
         auto current_time = now();
 
         if(itr_account == in_recovery.end()){
-            in_recovery.emplace(recoverer, [&](auto& in_recovery_info){
-                in_recovery_info.owner = owner;
-                in_recovery_info.backups = (*itr).backups;
-                in_recovery_info.new_key = new_key;
-                //in_recovery_info.cell_hash = (*itr).cell_hash;
-                in_recovery_info.recover_start_time = current_time;
-                in_recovery_info.signed_recovery = vector<account_name> signed_recovery{recoverer};
-                in_recovery_info.declined_recovery = vector<account_name> declined_recovery;
-            });
+            if(agree){
+                in_recovery.emplace(recoverer, [&](auto& in_recovery_info){
+                    in_recovery_info.owner = owner;
+                    in_recovery_info.backups = (*itr).backups;
+                    in_recovery_info.new_key = new_key;
+                    //in_recovery_info.cell_hash = (*itr).cell_hash;
+                    in_recovery_info.recover_start_time = current_time;
+                    in_recovery_info.signed_recovery.push_back(recoverer);
+                });
+            }
+            else{
+                in_recovery.emplace(recoverer, [&](auto& in_recovery_info){
+                    in_recovery_info.owner = owner;
+                    in_recovery_info.backups = (*itr).backups;
+                    in_recovery_info.new_key = new_key;
+                    //in_recovery_info.cell_hash = (*itr).cell_hash;
+                    in_recovery_info.recover_start_time = current_time;
+                    in_recovery_info.declined_recovery.push_back(recoverer);
+                });
+            }
         }
 
         else{
