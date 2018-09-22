@@ -46,7 +46,7 @@ namespace recovery {
         vector<account_name> signed_recovery;
         vector<account_name> declined_recovery;
         uint64_t primary_key() const { return owner; }
-        EOSLIB_SERIALIZE( in_recovery_info, (owner)(backups)(new_key)/*(cell_hash)*/(recover_start_time)(signed_recovery)(decline_recovery))
+        EOSLIB_SERIALIZE( in_recovery_info, (owner)(backups)(new_key)/*(cell_hash)*/(recover_start_time)(signed_recovery)(declined_recovery))
     };
 
     /*
