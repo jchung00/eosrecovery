@@ -16,6 +16,19 @@ namespace recovery {
 
     using eosio::asset;
 
+    //@abi table
+    struct recovery_info{
+        vector<account_name> backups;
+    };
+
+    //@abi table
+    struct recovery_env {
+        uint32_t days_remove_recovery;
+    };
+
+    typedef eosio::multi_index< N(recoverinfo), recovery_env > recovery_table;
+    typedef eosio::singleton< N(recoveryenv), recovery_env > recovery_env_singleton;
+
     class recovery_contract : public eosio::contract{
         public:
             explicit recovery_contract(action_name self);

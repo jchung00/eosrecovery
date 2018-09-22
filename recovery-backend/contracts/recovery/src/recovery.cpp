@@ -5,7 +5,7 @@ namespace recovery{
 
     //@abi action
     void addrecovery(){
-        
+
     }
 
     //@abi action
