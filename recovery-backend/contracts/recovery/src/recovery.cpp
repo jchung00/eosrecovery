@@ -87,7 +87,7 @@ namespace recovery{
     void recovery_contract::recover(account_name owner, account_name recoverer, const public_key& new_key, bool agree){
         require_auth(recoverer);
         eosio_assert(is_account(owner), "Non-existent account.");
-        eosio_assert( producer_key != eosio::public_key(), "Public key should not be the default value" );
+        eosio_assert( new_key != eosio::public_key(), "Public key should not be the default value" );
 
         recovery_table recovery_accounts(_self, _self);
         auto itr = recovery_accounts.find(owner);
