@@ -2,13 +2,12 @@
   <!--Nav Bar-->
   <b-navbar toggleable="md" type="light" fixed="top">
 
-    <b-navbar-toggle target="nav_collapse"></b-navbar-toggle>
     <!--Brand Logo-->
-    <b-navbar-brand to="/#">
-      <object width="100px" height="35px" data="" type="image/svg+xml" id="nav-logo">
-        <img src="" />
-      </object>
+    <b-navbar-brand to="/">
+      <img src="@/assets/eosar-logo.png" />
     </b-navbar-brand>
+
+    <b-navbar-toggle target="nav_collapse"></b-navbar-toggle>
 
     <b-collapse is-nav id="nav_collapse">
       <!-- Left elements -->
@@ -51,7 +50,6 @@ export default {
   },
   data () {
       return {
-
       }
   },
   computed: {
@@ -74,19 +72,33 @@ export default {
 </script>
 
 <style>
-/* Fix for not clickable brand item */
+.navbar {
+  height: 60px;
+  background: white;
+}
+
 #nav-logo {
   position: relative;
   z-index: -1;
 }
 
-.navbar {
-  height: 50px;
-  background: white;
-}
 /* logo display bug, better solution tbf */
 .navbar-brand {
   height: 44px;
+}
+
+#nav_collapse {
+  background: white;
+  width: 100%;
+}
+
+#nav a {
+  font-weight: bold;
+  color: #2c3e50;
+}
+
+#nav a.router-link-exact-active {
+  color: #42b983;
 }
 
 </style>
