@@ -5,15 +5,15 @@
     <b-navbar-toggle target="nav_collapse"></b-navbar-toggle>
     <!--Brand Logo-->
     <b-navbar-brand to="/#">
-      <object width="100px" height="35px" data="/static/img/main_logo.svg" type="image/svg+xml" id="nav-logo">
-        <img src="/static/img/main_logo.png" />
+      <object width="100px" height="35px" data="" type="image/svg+xml" id="nav-logo">
+        <img src="" />
       </object>
     </b-navbar-brand>
 
     <b-collapse is-nav id="nav_collapse">
       <!-- Left elements -->
       <b-navbar-nav>
-        <b-nav-item to="add-recovery" class="mx-1">Add Recovery</b-nav-item>
+        <b-nav-item to="recovery" class="mx-1">Recovery Partners</b-nav-item>
         <b-nav-item to="remove-recovery" class="mx-1">Remove Recovery</b-nav-item>
         <b-nav-item to="recover" class="mx-1">Recover</b-nav-item>
       </b-navbar-nav>
@@ -82,6 +82,10 @@ export default {
   z-index: -1;
 }
 
+.navbar {
+  height: 50px;
+  background: white;
+}
 /* logo display bug, better solution tbf */
 .navbar-brand {
   height: 44px;

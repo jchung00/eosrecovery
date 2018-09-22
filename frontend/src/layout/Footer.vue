@@ -23,5 +23,6 @@ export default {
     width: 100%;
     margin-top: auto;
     color: white;
+    height: 50px;
   }
 </style>
