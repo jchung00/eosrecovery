@@ -22,6 +22,7 @@ namespace recovery {
     using eosio::public_key;
     using eosio::asset;
     using eosio::transaction;
+    using eosio::permission_level;
 
     const uint32_t seconds_per_day = 60 * 60 * 24;
 

@@ -19,20 +19,20 @@
   </component>
   <component name="FileEditorManager">
     <leaf>
-      <file leaf-file-name="recovery.cpp" pinned="false" current-in-tab="true">
+      <file leaf-file-name="recovery.cpp" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/recovery.cpp">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="624">
+            <state relative-caret-position="936">
               <caret line="150" column="46" lean-forward="true" selection-start-line="150" selection-start-column="46" selection-end-line="150" selection-end-column="46" />
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="recovery.hpp" pinned="false" current-in-tab="false">
+      <file leaf-file-name="recovery.hpp" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/recovery.hpp">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="572">
-              <caret line="60" column="7" selection-start-line="60" selection-start-column="7" selection-end-line="60" selection-end-column="7" />
+            <state relative-caret-position="695">
+              <caret line="61" column="7" selection-start-line="61" selection-start-column="7" selection-end-line="61" selection-end-column="7" />
             </state>
           </provider>
         </entry>
@@ -50,9 +50,9 @@
       <find>key_wei</find>
       <find>permission_level_weight</find>
       <find>key_weight</find>
-      <find>permission_</find>
       <find>signed_recovery</find>
       <find>make_tuple</find>
+      <find>permission_</find>
     </findStrings>
   </component>
   <component name="IdeDocumentHistory">
@@ -126,12 +126,12 @@
       <option name="number" value="Default" />
       <option name="presentableId" value="Default" />
       <updated>1537654867409</updated>
-      <workItem from="1537654868823" duration="2162000" />
+      <workItem from="1537654868823" duration="2241000" />
     </task>
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="2162000" />
+    <option name="totallyTimeSpent" value="2241000" />
   </component>
   <component name="ToolWindowManager">
     <frame x="595" y="43" width="1156" height="960" extended-state="0" />
@@ -162,17 +162,17 @@
     <option name="myLimit" value="2678400000" />
   </component>
   <component name="editorHistoryManager">
-    <entry file="file://$PROJECT_DIR$/recovery.hpp">
+    <entry file="file://$PROJECT_DIR$/recovery.cpp">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="572">
-          <caret line="60" column="7" selection-start-line="60" selection-start-column="7" selection-end-line="60" selection-end-column="7" />
+        <state relative-caret-position="936">
+          <caret line="150" column="46" lean-forward="true" selection-start-line="150" selection-start-column="46" selection-end-line="150" selection-end-column="46" />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/recovery.cpp">
+    <entry file="file://$PROJECT_DIR$/recovery.hpp">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="624">
-          <caret line="150" column="46" lean-forward="true" selection-start-line="150" selection-start-column="46" selection-end-line="150" selection-end-column="46" />
+        <state relative-caret-position="695">
+          <caret line="61" column="7" selection-start-line="61" selection-start-column="7" selection-end-line="61" selection-end-column="7" />
         </state>
       </provider>
     </entry>
