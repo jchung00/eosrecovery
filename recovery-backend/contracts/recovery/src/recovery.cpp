@@ -8,7 +8,7 @@ namespace recovery{
     }
 
     //@abi action
-    void setenv(uint32_t set_recovery_delay_time){
+    void recovery_contract::setenv(uint32_t set_recovery_delay_time){
         require_auth(_self);
 
         eosio_assert(set_recovery_delay_time >= 1 && set_recovery_delay_time <= 30, "Invalid delay time.");
@@ -21,7 +21,7 @@ namespace recovery{
     }
 
     //@abi action
-    void setrecovery(account_name owner, const vector<account_name>& backups, const string& cell_hash){
+    void recovery_contract::setrecovery(account_name owner, const vector<account_name>& backups, const string& cell_hash){
         require_auth(owner);
 
         eosio_assert(backups.size()>=2, "There should be at least 2 recovery accounts set up.");
@@ -64,7 +64,7 @@ namespace recovery{
     }
 
     //@abi action
-    void chgrecovery(account_name owner, const vector<account_name>& backups){
+    void recovery_contract::chgrecovery(account_name owner, const vector<account_name>& backups){
         require_auth(owner);
 
         recovery_table recovery_accounts(_self, _self);
@@ -84,7 +84,7 @@ namespace recovery{
     }
 
     //@abi action
-    void recover(account_name owner, account_name recoverer, const public_key& new_key, bool agree){
+    void recovery_contract::recover(account_name owner, account_name recoverer, const public_key& new_key, bool agree){
         require_auth(recoverer);
         eosio_assert(is_account(owner), "Non-existent account.");
         eosio_assert( producer_key != eosio::public_key(), "Public key should not be the default value" );

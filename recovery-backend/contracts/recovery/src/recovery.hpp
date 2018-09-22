@@ -80,21 +80,16 @@ namespace recovery {
             explicit recovery_contract(action_name self);
 
             //@abi action
-            void setenv(uint32_t set_recovery_delay_time){
-
-            }
+            void setenv(uint32_t set_recovery_delay_time);
 
             //@abi action
-            void setrecovery(account_name owner, const vector<account_name>& backups, const string& cell_hash){
-            }
+            void setrecovery(account_name owner, const vector<account_name>& backups, const string& cell_hash);
 
             //@abi action
-            void chgrecovery(account_name owner){
-            }
+            void chgrecovery(account_name owner);
 
             //@abi action
-            void recover(account_name owner, account_name recoverer, const public_key& new_key, bool agree){
-            }
+            void recover(account_name owner, account_name recoverer, const public_key& new_key, bool agree);
 
         private: recovery_env_singleton m_recovery_env;
     };
