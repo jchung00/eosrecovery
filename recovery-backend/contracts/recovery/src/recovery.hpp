@@ -22,6 +22,7 @@ namespace recovery {
     using eosio::public_key;
     using eosio::asset;
     using eosio::transaction;
+    using eosio::permission_level;
 
     const uint32_t seconds_per_day = 60 * 60 * 24;
 
@@ -86,7 +87,7 @@ namespace recovery {
             void setrecovery(account_name owner, const vector<account_name>& backups, const string& cell_hash);
 
             //@abi action
-            void chgrecovery(account_name owner);
+            void chgrecovery(account_name owner, const vector<account_name>& backups);
 
             //@abi action
             void recover(account_name owner, account_name recoverer, const public_key& new_key, bool agree);
