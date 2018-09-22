@@ -90,7 +90,7 @@ namespace recovery {
 
     //@abi table
     struct recovery_env {
-        uint32_t set_recovery_delay_time = 10;
+        uint64_t set_recovery_delay_time = 10;
         EOSLIB_SERIALIZE( recovery_env, (set_recovery_delay_time));
     };
 
