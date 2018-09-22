@@ -8,37 +8,70 @@ namespace recovery{
     }
 
     //@abi action
-    void addrecovery(account_name owner, const vector<account_name>& backups, const string& cell_hash){
+    void setrecovery(account_name owner, const vector<account_name>& backups, const string& cell_hash){
         require_auth(owner);
+
         eosio_assert(backups.size()>=2, "There should be at least 2 recovery accounts set up.");
+        eosio_assert(cell_hash.size()<1024, "Cell hash is too large");
 
         recovery_table recovery_accounts(_self, _self);
-
         auto itr = recovery_accounts.find(owner);
-        eosio_assert(itr==recovery_accounts.end(), "Account already has recovery set up.");
 
         for(int i=0; i<backups.size(); i++){
             eosio_assert(is_account(backups.at(i)));
         }
 
-        recovery_accounts.emplace(owner, [&](auto& recovery_info){
-           recovery_info.owner = owner;
-           recovery_info.backups = backups;
-           recovery_info.cell_hash = cell_hash;
-           recovery_info.rmv_recovery_start_time = 0;
-           recovery_info.recover_start_time = 0;
-        });
+        auto recovery_env = m_recovery_env.get();
+
+        auto current_time = now();
+
+        if(itr==recovery_accounts.end()){
+            recovery_accounts.emplace(owner, [&](auto& recovery_info){
+                recovery_info.owner = owner;
+                recovery_info.backups = backups;
+                //recovery_info.cell_hash = cell_hash;
+                recovery_info.last_set_time = current_time;
+                //recovery_info.rmv_recovery_start_time = 0;
+                //recovery_info.recover_start_time = 0;
+            });
+        }
+
+        else{
+            recovery_accounts.modify(itr, 0, [&](auto& recovery_info){
+                recovery_info.last_set_time = current_time;
+            });
+
+            transaction out{};
+
+            out.actions.emplace_back(permmision_level {_self, N(active)}, N(recoverykeys), N(chgrecovery),
+            std::make_tuple(owner));
+            out.delay_sec = recovery_env.set_recovery_delay_time;
+            out.send(owner, owner, true);
+        }
     }
 
     //@abi action
-    void rmvrecovery(account_name owner){
+    void chgrecovery(account_name owner){
         require_auth(owner);
+
+        recovery_table recovery_accounts(_self, _self);
+        auto itr = recovery_accounts.find(owner);
+        eosio_assert(itr != recovery_accounts.end(), "Account does not have recovery set up.");
+
+        auto current_time = now();
+
+        auto recovery_env = m_recovery_env.get();
+
+        eosio_assert(current_time - (*itr).last_set_time > recovery_env.set_recovery_delay_time,
+                     "Change recovery time has not been exceeded.");
+
+        recovery_accounts.erase(itr);
     }
 
     //@abi action
-    void recover(account_name owner, account_name requester, const public_key& new_key){
-        require_auth(requester);
-        eosio_assert(is_account(owner));
+    void recover(account_name owner, account_name recoverer, const public_key& new_key, bool agree){
+        require_auth(recoverer);
+        eosio_assert(is_account(owner), "Non-existent account.");
         eosio_assert( producer_key != eosio::public_key(), "Public key should not be the default value" );
 
         recovery_table recovery_accounts(_self, _self);
@@ -50,62 +83,50 @@ namespace recovery{
 
         in_recovery_table in_recovery(_self, _self);
         auto itr_account = in_recovery.find(owner);
-        eosio_assert(itr_account == in_recovery.end(), "Account is already in the recovery process.");
 
         auto current_time = now();
 
-        in_recovery.emplace(requester, [&]auto& in_recovery_info){
-            in_recovery_info.owner = owner;
-            in_recovery_info.backups = (*itr).backups;
-            in_recovery_info.cell_hash = (*itr).cell_hash;
-            in_recovery_info.recover_start_time = current_time;
-            in_recovery_info.signed_recovery = vector<account_name> signed_recovery{requester};
-            in_recovery_info.declined_recovery = vector<account_name> declined_recovery;
-        });
-    }
-
-    //@abi action
-    void reviewrec(account_name owner, account_name recoverer, bool agree){
-        require_auth(recoverer);
-        eosio_assert(is_accounts(owner));
-
-        in_recovery_table in_recovery(_self, _self);
-        auto itr = in_recovery.find(owner);
-        eosio_assert(itr != in_recovery.end(), "Account is not in the recovery process");
-
-        auto itr_backup = std::find((*itr).backups.begin(), (*itr).backups.end(), recoverer);
-        eosio_assert(itr_backup != (*itr).backups.end(), "Account is not registered as one of the fallbacks.");
-
-        auto current_time = now();
-
-        uint64_t time_since_recover_start = current_time - (*itr).recover_start_time;
-
-        if(time_since_recover_start >= seconds_per_day){
-            in_recovery.erase(itr);
+        if(itr_account == in_recovery.end()){
+            in_recovery.emplace(requester, [&](auto& in_recovery_info){
+                in_recovery_info.owner = owner;
+                in_recovery_info.backups = (*itr).backups;
+                in_recovery_info.new_key = new_key;
+                //in_recovery_info.cell_hash = (*itr).cell_hash;
+                in_recovery_info.recover_start_time = current_time;
+                in_recovery_info.signed_recovery = vector<account_name> signed_recovery{recoverer};
+                in_recovery_info.declined_recovery = vector<account_name> declined_recovery;
+            });
         }
+
         else{
-            if(agree) {
-                in_recovery.modify(itr, 0, [&](auto &in_recovery_info) {
-                    in_recovery_info.signed_recovery = (*itr).signed_recovery.push_back(recoverer);
-                });
-                if((*itr).signed_recovery.size() >= (((*itr).backups.size() * 2) / 3) + 1){
-                    /*
-                     TO-DO UPDATE AUTH
-                     */
-                    in_recovery.erase(itr);
-                }
+            uint64_t time_since_recover_start = current_time - (*itr).recover_start_time;
+
+            if(time_since_recover_start >= seconds_per_day){
+                in_recovery.erase(itr);
             }
             else{
-                in_recovery.modify(itr, 0, [&](auto &in_recovery_info) {
-                    in_recovery_info.signed_recovery = (*itr).declined_recovery.push_back(recoverer);
-                });
-                if((*itr).declined_recovery.size() >= (((*itr).backups.size() * 2) / 3) + 1){
-                    in_recovery.erase(itr);
+                if(agree) {
+                    in_recovery.modify(itr, 0, [&](auto& in_recovery_info) {
+                        in_recovery_info.signed_recovery = (*itr).signed_recovery.push_back(recoverer);
+                    });
+                    if((*itr).signed_recovery.size() >= (((*itr).backups.size() * 2) / 3) + 1){
+                        /*
+                         TO-DO UPDATE AUTH
+                         */
+                        in_recovery.erase(itr);
+                    }
+                }
+                else{
+                    in_recovery.modify(itr, 0, [&](auto& in_recovery_info) {
+                        in_recovery_info.signed_recovery = (*itr).declined_recovery.push_back(recoverer);
+                    });
+                    if((*itr).declined_recovery.size() >= (((*itr).backups.size() * 2) / 3) + 1){
+                        in_recovery.erase(itr);
+                    }
                 }
             }
         }
     }
-
-}
+} //recovery
 
 EOSIO_ABI( recovery::recovery_contract, (addrecovery)(rmvrecovery)(recover))
