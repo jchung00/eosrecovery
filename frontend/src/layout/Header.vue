@@ -13,8 +13,7 @@
     <b-collapse is-nav id="nav_collapse">
       <!-- Left elements -->
       <b-navbar-nav>
-        <b-nav-item to="recovery" class="mx-1">Recovery Partners</b-nav-item>
-        <b-nav-item to="remove-recovery" class="mx-1">Remove Recovery</b-nav-item>
+        <b-nav-item to="partners" class="mx-1">Recovery Partners</b-nav-item>
         <b-nav-item to="recover" class="mx-1">Recover</b-nav-item>
       </b-navbar-nav>
 
@@ -33,7 +32,6 @@
           <template slot="button-content">
             <em> {{ scatterAccount.name }} </em>
           </template>
-          <b-dropdown-item to="profile">Profile</b-dropdown-item>
           <b-dropdown-item href="#" @click="changeIdentity">Change Identity </b-dropdown-item>
           <b-dropdown-item href="#" @click="removeIdentity">Signout</b-dropdown-item>
         </b-nav-item-dropdown>

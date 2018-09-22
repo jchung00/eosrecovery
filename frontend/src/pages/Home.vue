@@ -21,10 +21,6 @@
   </main>
 </template>
 
-<script>
-// @ is an alias to /src
-
-</script>
 <style>
     html, body {
         height: 100%;

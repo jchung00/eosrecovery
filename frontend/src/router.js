@@ -3,7 +3,8 @@ import Router from 'vue-router'
 
 // Pages
 import Home from './pages/Home.vue'
-import Recovery from './pages/Recovery.vue'
+import Partners from './pages/Partners.vue'
+import Recover from './pages/Recover.vue'
 
 Vue.use(Router)
 
@@ -16,9 +17,14 @@ export default new Router({
       component: Home
     },
     {
-      path: '/recovery',
-      name: 'Recovery',
-      component: Recovery
+      path: '/partners',
+      name: 'Partners',
+      component: Partners
+    },
+    {
+      path: '/recover',
+      name: 'Recover',
+      component: Recover
     }
   ]
 })
