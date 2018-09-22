@@ -13,6 +13,7 @@
 namespace recovery {
     using std::string;
     using std::vector;
+    using std::set;
 
     using eosio::asset;
 
@@ -35,18 +36,16 @@ namespace recovery {
 
             //@abi action
             void addrecovery(){
-
             }
 
             //@abi action
             void rmvrecovery(){
-
             }
 
             //@abi action
             void recover(){
-
             }
 
+        private: recovery_env_singleton m_recovery_env;
     };
 }//recovery
