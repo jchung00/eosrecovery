@@ -103,7 +103,8 @@ namespace recovery{
 
         if(itr_account == in_recovery.end()){
             if(agree) {
-                in_recovery.emplace(recoverer, [&](auto& in_recovery_info){
+                in_recovery.emplace(recoverer, [&](auto& in_recovery_info
+                ){
                     in_recovery_info.owner = owner;
                     in_recovery_info.backups = (*itr).backups;
                     in_recovery_info.new_key = new_key;

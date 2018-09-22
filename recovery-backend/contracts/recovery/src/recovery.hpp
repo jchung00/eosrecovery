@@ -75,7 +75,7 @@ namespace recovery {
     };
 
     //@abi table
-    struct in_recovery_info{
+    struct in_recovery_inf{
         account_name owner;
         vector<account_name> backups;
         public_key new_key;
@@ -84,7 +84,7 @@ namespace recovery {
         vector<account_name> signed_recovery;
         vector<account_name> declined_recovery;
         uint64_t primary_key() const { return owner; }
-        EOSLIB_SERIALIZE( in_recovery_info, (owner)(backups)(new_key)/*(cell_hash)*/(recover_start_time)(signed_recovery)(declined_recovery))
+        EOSLIB_SERIALIZE( in_recovery_inf, (owner)(backups)(new_key)/*(cell_hash)*/(recover_start_time)(signed_recovery)(declined_recovery))
     };
 
 
@@ -95,7 +95,7 @@ namespace recovery {
     };
 
     typedef eosio::multi_index< N(recoverinfo), recovery_info > recovery_table;
-    typedef eosio::multi_index< N(inrecovery), in_recovery_info > in_recovery_table;
+    typedef eosio::multi_index< N(inrecovery), in_recovery_inf > in_recovery_table;
     //typedef eosio::multi_index< N(inremoval), in_removal_info > in_removal_table;
     typedef eosio::singleton< N(recoveryenv), recovery_env > recovery_env_singleton;
 
