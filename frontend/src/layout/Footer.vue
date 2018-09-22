@@ -16,13 +16,13 @@ export default {
 </script>
 
 <style scoped>
-  .footer {
-    text-align: center;
-    background-color: #132032;
-    padding: 40px 0;
-    width: 100%;
-    margin-top: auto;
-    color: white;
-    height: 50px;
-  }
+.footer {
+  position: absolute;
+  text-align: center;
+  background-color: #132032;
+  color: white;
+  width: 100%;
+  height: 60px;
+}
+
 </style>

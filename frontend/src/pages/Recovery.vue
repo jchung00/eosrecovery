@@ -11,7 +11,7 @@
             </div>
             <!-- End of jumbotron -->
         </div>
-        <div>
+        <div class="container">
             <h3>Existing Recovery Partners</h3>
             <div>
                 <table class="table">
@@ -62,7 +62,7 @@
                     </tr>
                     </tbody>
                 </table>
-                
+
 
                 <b-button
                         variant="success"
@@ -82,20 +82,5 @@ export default {
 </script>
 
 <style>
-    html, body {
-        height: 100%;
-    }
-    .main {
-        margin: 0 auto;
-        height: 100%;
-        padding: 20px 0;
 
-        -moz-box-sizing: border-box;
-        -webkit-box-sizing: border-box;
-        box-sizing: border-box;
-    }
-    .footer {
-        background: red;
-        height: 20px;
-    }
 </style>
