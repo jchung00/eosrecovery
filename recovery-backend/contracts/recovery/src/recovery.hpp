@@ -25,6 +25,42 @@ namespace recovery {
 
     const uint32_t seconds_per_day = 60 * 60 * 24;
 
+
+    /* SYED */
+    using eosio::permission_level;
+    using eosio::public_key;
+
+    typedef std::vector<char> bytes;
+
+    struct permission_level_weight {
+        permission_level  permission;
+        weight_type       weight;
+
+        // explicit serialization macro is not necessary, used here only to improve compilation time
+        EOSLIB_SERIALIZE( permission_level_weight, (permission)(weight) )
+    };
+
+    struct key_weight {
+        public_key   key;
+        weight_type  weight;
+
+        // explicit serialization macro is not necessary, used here only to improve compilation time
+        EOSLIB_SERIALIZE( key_weight, (key)(weight) )
+    };
+
+    struct authority {
+        uint32_t                              threshold;
+        uint32_t                              delay_sec;
+        std::vector<key_weight>               keys;
+        std::vector<permission_level_weight>  accounts;
+
+        // explicit serialization macro is not necessary, used here only to improve compilation time
+        EOSLIB_SERIALIZE( authority, (threshold)(delay_sec)(keys)(accounts) )
+    };
+
+    /* SYED */
+
+
     //@abi table
     struct recovery_info{
         account_name owner;
@@ -50,19 +86,6 @@ namespace recovery {
         EOSLIB_SERIALIZE( in_recovery_info, (owner)(backups)(new_key)/*(cell_hash)*/(recover_start_time)(signed_recovery)(declined_recovery))
     };
 
-    /*
-    //@abi table
-    struct in_removal_info{
-        account_name owner;
-        vector<account_name> backups;
-        string cell_hash;
-        uint64_t recover_start_time;
-        vector<account_name> agreed;
-        vector<account_name> disagreed;
-        uint64_t primary_key() const { return owner; }
-        EOSLIB_SERIALIZE( in_recovery_info, (owner)(backups)(cell_hash)(recover_start_time)(agreed)(disagreed))
-    };
-     */
 
     //@abi table
     struct recovery_env {
@@ -80,21 +103,16 @@ namespace recovery {
             explicit recovery_contract(action_name self);
 
             //@abi action
-            void setenv(uint32_t set_recovery_delay_time){
-
-            }
+            void setenv(uint32_t set_recovery_delay_time);
 
             //@abi action
-            void setrecovery(account_name owner, const vector<account_name>& backups, const string& cell_hash){
-            }
+            void setrecovery(account_name owner, const vector<account_name>& backups, const string& cell_hash);
 
             //@abi action
-            void chgrecovery(account_name owner){
-            }
+            void chgrecovery(account_name owner, const vector<account_name>& backups);
 
             //@abi action
-            void recover(account_name owner, account_name recoverer, const public_key& new_key, bool agree){
-            }
+            void recover(account_name owner, account_name recoverer, const public_key& new_key, bool agree);
 
         private: recovery_env_singleton m_recovery_env;
     };
