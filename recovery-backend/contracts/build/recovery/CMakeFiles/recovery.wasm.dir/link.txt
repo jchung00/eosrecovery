@@ -1,0 +1,1 @@
+/usr/local/eosio.cdt//bin/eosio-ld  CMakeFiles/recovery.wasm.dir/src/recovery.cpp.o -o ../../recovery/bin/recovery/recovery.wasm 
