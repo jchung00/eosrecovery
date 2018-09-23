@@ -1,7 +1,7 @@
 import ScatterJS from 'scatter-js/dist/scatter.esm';
-import { mainnet } from './endpoints'
+import { jungle } from './endpoints'
 
-const network = mainnet
+const network = jungle
 
 export default {
   namespaced: true,
@@ -12,7 +12,7 @@ export default {
 
   actions: {
     async CONNECT_SCATTER ({ commit }) {
-      ScatterJS.scatter.connect('recoveryApp').then(connected => {
+      ScatterJS.scatter.connect('recovery-app').then(connected => {
         if (connected) {
           commit('SET_SCATTER', ScatterJS.scatter)
           window.scatter = null
@@ -42,12 +42,6 @@ export default {
       if (state.scatter) {
         state.scatter.forgetIdentity()
       }
-    },
-
-    async UPDATE_ACCOUNT ({ dispatch }, name) {
-      dispatch('account/SET_ACCOUNT', name, {root: true})
-      dispatch('account/SET_EOS_BALANCE', name, {root: true})
-      dispatch('account/SET_TOKENS', name, {root: true})
     }
   },
 

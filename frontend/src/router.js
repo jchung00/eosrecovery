@@ -1,6 +1,11 @@
 import Vue from 'vue'
 import Router from 'vue-router'
+
+// Pages
 import Home from './pages/Home.vue'
+import Partners from './pages/Partners.vue'
+import Recover from './pages/Recover.vue'
+import Requests from './pages/Requests.vue'
 
 Vue.use(Router)
 
@@ -11,6 +16,21 @@ export default new Router({
       path: '/',
       name: 'home',
       component: Home
+    },
+    {
+      path: '/partners',
+      name: 'Partners',
+      component: Partners
+    },
+    {
+      path: '/recover',
+      name: 'Recover',
+      component: Recover
+    },
+      {
+      path: '/requests',
+      name: 'Requests',
+      component: Requests
     }
   ]
 })

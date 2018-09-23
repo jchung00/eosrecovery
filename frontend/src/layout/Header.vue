@@ -2,20 +2,20 @@
   <!--Nav Bar-->
   <b-navbar toggleable="md" type="light" fixed="top">
 
-    <b-navbar-toggle target="nav_collapse"></b-navbar-toggle>
     <!--Brand Logo-->
-    <b-navbar-brand to="/#">
-      <object width="100px" height="35px" data="/static/img/main_logo.svg" type="image/svg+xml" id="nav-logo">
-        <img src="/static/img/main_logo.png" />
-      </object>
+    <b-navbar-brand to="/">
+      <img src="@/assets/eos-logo-small.png" style="height:22px;" alt="">
+      eos.ar
     </b-navbar-brand>
+
+    <b-navbar-toggle target="nav_collapse"></b-navbar-toggle>
 
     <b-collapse is-nav id="nav_collapse">
       <!-- Left elements -->
       <b-navbar-nav>
-        <b-nav-item to="add-recovery" class="mx-1">Add Recovery</b-nav-item>
-        <b-nav-item to="remove-recovery" class="mx-1">Remove Recovery</b-nav-item>
-        <b-nav-item to="recover" class="mx-1">Recover</b-nav-item>
+        <b-nav-item to="partners" class="mx-1">Manage Partners</b-nav-item>
+        <b-nav-item to="recover" class="mx-1">Recover Account</b-nav-item>
+        <b-nav-item to="requests" class="mx-1">Requests</b-nav-item>
       </b-navbar-nav>
 
       <!-- Right elements -->
@@ -33,7 +33,6 @@
           <template slot="button-content">
             <em> {{ scatterAccount.name }} </em>
           </template>
-          <b-dropdown-item to="profile">Profile</b-dropdown-item>
           <b-dropdown-item href="#" @click="changeIdentity">Change Identity </b-dropdown-item>
           <b-dropdown-item href="#" @click="removeIdentity">Signout</b-dropdown-item>
         </b-nav-item-dropdown>
@@ -53,7 +52,6 @@ export default {
   },
   data () {
       return {
-
       }
   },
   computed: {
@@ -76,15 +74,31 @@ export default {
 </script>
 
 <style>
-/* Fix for not clickable brand item */
+.navbar {
+  height: 60px;
+  background: white;
+}
+
 #nav-logo {
   position: relative;
-  z-index: -1;
+  z-index: 6;
 }
 
-/* logo display bug, better solution tbf */
-.navbar-brand {
-  height: 44px;
+#nav_collapse {
+  background: white;
+  width: 100%;
 }
 
+#nav a {
+  font-weight: bold;
+  color: #2c3e50;
+}
+
+#nav a.router-link-exact-active {
+  color: #42b983;
+}
+
+.nav-link.active {
+  color: red;
+}
 </style>

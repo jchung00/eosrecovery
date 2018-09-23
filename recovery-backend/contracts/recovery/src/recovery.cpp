@@ -136,7 +136,7 @@ namespace recovery{
 
             eosio_assert(itr_signed == (*itr_account).signed_recovery.end(), "Recoverer has already signed.");
 
-            auto itr_declined = std::find((*itr_account).declined_recovery.begin(), (*itr_account).declined_recover.end(), recoverer);
+            auto itr_declined = std::find((*itr_account).declined_recovery.begin(), (*itr_account).declined_recovery.end(), recoverer);
 
             eosio_assert(itr_declined == (*itr_account).declined_recovery.end(), "Recoverer has already declined.");
 

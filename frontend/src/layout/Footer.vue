@@ -1,6 +1,7 @@
 <template>
   <div class="footer">
-    EOSIO Account Recovery {{ currentYear }}
+    <p class="mt-5">EOSIO Account Recovery {{ currentYear }}</p>
+
   </div>
 </template>
 
@@ -16,12 +17,13 @@ export default {
 </script>
 
 <style scoped>
-  .footer {
-    text-align: center;
-    background-color: #132032;
-    padding: 40px 0;
-    width: 100%;
-    margin-top: auto;
-    color: white;
-  }
+.footer {
+  position: absolute;
+  text-align: center;
+  background-color: #132032;
+  color: white;
+  width: 100%;
+  height: 110px;
+}
+
 </style>
