@@ -6,7 +6,7 @@
                     Recovery Console
                 </h1>
                 <p>
-                    Recover yor account. This Process will take 30 days for security reasons.
+                    Recover your account.
                 </p>
             </div>
         </div>

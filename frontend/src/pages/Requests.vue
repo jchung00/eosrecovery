@@ -20,7 +20,6 @@
                     <tr>
                         <th scope="col">#</th>
                         <th scope="col">Username</th>
-                        <th scope="col">Permission</th>
                         <th scope="col">Actions</th>
                     </tr>
                     </thead>
@@ -29,7 +28,6 @@
                     <tr v-for="(row, index) in rows" :key="index">
                         <td class="align-middle">{{ index + 1 }}</td>
                         <td class="align-middle">{{ row.username }}</td>
-                        <td class="align-middle">{{ row.permission }} </td>
                         <td class="align-middle">
                             <div v-if="row.toDelete">
                                 Deleted

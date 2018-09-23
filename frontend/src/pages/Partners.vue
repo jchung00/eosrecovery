@@ -6,7 +6,7 @@
                     Account Name here
                 </h1>
                 <p>
-                    Setup your account recovery partners
+                    Setup your account recovery partners (2/3 + 1 to recover)
                 </p>
             </div>
             <!-- End of jumbotron -->
@@ -26,21 +26,11 @@
                     <tbody>
                     <tr v-for="(row, index) in rows" :key="index">
                         <td class="align-middle">{{ index + 1 }}</td>
-                        <td class="align-middle">{{ row.username }}</td>
+                        <td class="align-middle">{{ row }}</td>
                         <td class="align-middle">
-                            <div v-if="row.toDelete">
-                                Deleted
-                                <b-button variant="danger"
-                                          class="mb-2"
-                                >
-                                Undo
-                                </b-button>
-                            </div>
-
                             <b-button variant="danger"
                                       class="mb-2"
                                       @click="deletePartner(index)"
-                                      v-else
                                       id="custom-button">
                                 Delete Partner
                             </b-button>
@@ -80,24 +70,29 @@
 </template>
 
 <script>
+import EOS from 'eosjs'
+import {mapGetters} from 'vuex'
+
 export default {
   name: 'Partners',
 
   data () {
     return {
         newUsername: null,
-        rows: [{
-            username: 'hkeoshkeosbp',
-        }]
+        rows: []
     }
+  },
+
+  computed: {
+    ...mapGetters({
+      scatterAccount: 'scatter/scatterAccount'
+    })
   },
 
   methods: {
       addPartner () {
           if (this.newUsername) {
-            this.rows.push({
-                username: this.newUsername,
-            })
+            this.rows.push(this.newUsername)
             this.newUsername = null
           }
       },
@@ -107,7 +102,22 @@ export default {
       },
 
       savePartners () {
+        let eosjs = this.scatter.eos({
+            chain: 'jungle',
+            blockchain: 'eos',
+            chainId: '038f4b0fc8ff18a4f0842a8f0564611f6e96e8535901dd45e43ac8691a1c4dca',
+            port: 80,
+            protocol: 'http',
+            host: 'api.jungle.alohaeos.com',
+            httpEndpoint: 'http://api.jungle.alohaeos.com'
+        }, EOS)
 
+        eosjs.transaction(
+            'forgoteoskey', 
+            contract => {
+                contract.setrecovery(this.scatterAccount, this.rows, "");
+            }
+        )
       }
   }
 }
