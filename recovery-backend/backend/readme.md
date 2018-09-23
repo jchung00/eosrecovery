@@ -16,7 +16,7 @@
 
 ### edit nodeos, mongo, redis environment
     vi config/developer.json
-    vi tools/create_wps_info.js
+    vi tools/create_summary.js
     NODE_ENV=developer NODE_PATH=. node tools/create_summary.js
 
 ### start pm2
