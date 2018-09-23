@@ -50,9 +50,13 @@
 
                     <b-button type="submit" variant="primary" class="mx-2" id="custom-button" @click="recover">Recover Account</b-button>
                     <b-button type="reset" variant="danger" class="mx-2" id="custom-button">Reset</b-button>
+
+                    <b-alert variant="success" show class="mt-3" v-if="success">Successful Recovery Request</b-alert>
+
                 </div>
 
                 <div class="col"></div>
+
             </div>
 
 
@@ -74,7 +78,8 @@ export default {
         form: {
             eosAccount: null,
             publicKey: null
-        }
+        },
+        success: false
     }
   },
 
@@ -108,7 +113,9 @@ export default {
             contract => {
                 contract.recover(eosAccount, this.scatterAccount.name, publicKey, 1, options);
             }
-        )
+        ).then(success => {
+            this.success = true
+        })
     }
   }
 }
