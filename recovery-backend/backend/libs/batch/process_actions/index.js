@@ -71,7 +71,10 @@ async function processActions() {
                 if (!_.isEmpty(transactions)) {
                     return Promise.each(transactions, async function(transaction) {
                         const trx = transaction.trx;
-                        return _processActions(transaction.trx.transaction.actions, trx, blockNum);
+                        if (_.isEmpty(trx)) {
+                            return;
+                        }
+                        return _processActions(trx.transaction.actions, trx, blockNum);
                     });
                 }
             })
