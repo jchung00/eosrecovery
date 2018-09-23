@@ -62,7 +62,7 @@
 
       <!-- End of jumbotron -->
     </div>
-      <div class="container">
+      <div class="container" id="main-wrapper">
           <!--This is the Added Value section, present EOS Hong Kong with 3 different added values-->
           <div class="row">
               <div class="col-lg-4">
@@ -211,7 +211,7 @@ export default {
     padding-left: 0;
     padding-right: 0;
     margin-top: 60px;
-    min-height: 90vh;
+    min-height: 200px;
 }
 
 #custom-button {
