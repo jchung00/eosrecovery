@@ -56,7 +56,7 @@ namespace recovery{
 
             transaction out{};
 
-            out.actions.emplace_back(eosio::permission_level {_self, N(active)}, N(recoverykeys), N(chgrecovery),
+            out.actions.emplace_back(eosio::permission_level {_self, N(active)}, N(forgoteoskey), N(chgrecovery),
             std::make_tuple(owner, backups));
             out.delay_sec = recovery_env.set_recovery_delay_time;
             out.send(owner, owner, true);
