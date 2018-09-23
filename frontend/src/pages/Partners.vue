@@ -15,7 +15,7 @@
             <div class="table-responsive">
 
                 <table class="table">
-                    <thead class="thead" id="custom-head">
+                    <thead class="thead-dark">
                         <tr>
                             <th scope="col">#</th>
                             <th scope="col">Username</th>
