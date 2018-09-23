@@ -19,7 +19,7 @@ async function chgrecovery(action) {
 }
 
 async function recover(action) {
-    await Notification.create({account : action.data.owner, recoverer : action.data.recoverer, type : SEnum.NOTI_TYPE_RECOVER, is_agree : action.data.is_agree});
+    await Notification.create({account : action.data.owner, recoverer : action.data.recoverer, type : SEnum.NOTI_TYPE_RECOVER, agree : action.data.agree});
 }
 
 module.exports = exports = {setrecovery, chgrecovery, recover};

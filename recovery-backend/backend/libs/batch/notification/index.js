@@ -55,7 +55,7 @@ async function _notifyRecover(noti) {
             if (noti.account === account.account) {
                 // return smsApi.sendSMS('+' + account.cell, 'Did you request a recovery?');
             }
-            if (noti.is_agree === true) {
+            if (noti.agree === true) {
                 return smsApi.sendSMS('+' + account.cell, `${noti.account} approves the recovery request.`);
             }
             return smsApi.sendSMS('+' + account.cell, `${noti.account} denied the recovery request.`);
