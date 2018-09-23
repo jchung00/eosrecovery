@@ -7,7 +7,7 @@
           EOS Account Recovery
         </h1>
         <p class="mb-5">
-        Don't loose an account ever again, secure it via trusted eos.io relationships.
+        Don't lose an account ever again, secure it via trusted eos.io relationships.
         </p>
         <b-button
                 variant="success"

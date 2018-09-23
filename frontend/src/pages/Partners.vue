@@ -19,7 +19,6 @@
                     <tr>
                         <th scope="col">#</th>
                         <th scope="col">Username</th>
-                        <th scope="col">Permission</th>
                         <th scope="col">Actions</th>
                     </tr>
                     </thead>
@@ -28,15 +27,13 @@
                     <tr v-for="(row, index) in rows" :key="index">
                         <td class="align-middle">{{ index + 1 }}</td>
                         <td class="align-middle">{{ row.username }}</td>
-                        <td class="align-middle">{{ row.permission }} </td>
                         <td class="align-middle">
                             <div v-if="row.toDelete">
                                 Deleted
-
                                 <b-button variant="danger"
                                           class="mb-2"
                                 >
-                                    Undo
+                                Undo
                                 </b-button>
                             </div>
 
@@ -54,9 +51,6 @@
                         <td>{{ rows.length + 1 }}</td>
                         <td>
                             <input v-model="newUsername" required/>
-                        </td>
-                        <td>
-                            <input v-model="newPermission" required/>
                         </td>
                         <td>
                             <b-button
@@ -92,24 +86,19 @@ export default {
   data () {
     return {
         newUsername: null,
-        newPermission: null,
         rows: [{
             username: 'hkeoshkeosbp',
-            permission: 'active'
         }]
     }
   },
 
   methods: {
       addPartner () {
-          if (this.newUsername && this.newPermission) {
+          if (this.newUsername) {
             this.rows.push({
                 username: this.newUsername,
-                permission: this.newPermission
             })
-
             this.newUsername = null
-            this.newPermission = null
           }
       },
 
