@@ -1,0 +1,6 @@
+node_modules
+coverage
+.DS_Store
+!/log/dummy
+public/images/
+package-lock.json

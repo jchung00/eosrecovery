@@ -1,0 +1,8 @@
+
+
+// initialize lib db
+
+db.actions.drop();
+db.notifications.drop();
+db.recoveries.drop();
+db.summries.drop();
