@@ -2,6 +2,7 @@
   <div id="app">
     <head>
       <link href="https://fonts.googleapis.com/css?family=Roboto+Condensed" rel="stylesheet">
+      <title>EOS Account Recovery</title>
     </head>
     <AppHeader></AppHeader>
     <b-container fluid id="main-wrapper">

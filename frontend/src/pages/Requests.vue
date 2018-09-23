@@ -11,53 +11,56 @@
             </div>
             <!-- End of Jumbotron -->
         </div>
-        <div class="table-responsive">
 
+        <div class="container">
+            <div class="table-responsive">
 
-            <table class="table">
-                <thead>
-                <tr>
-                    <th scope="col">#</th>
-                    <th scope="col">Username</th>
-                    <th scope="col">Permission</th>
-                    <th scope="col">Actions</th>
-                </tr>
-                </thead>
+                <table class="table">
+                    <thead>
+                    <tr>
+                        <th scope="col">#</th>
+                        <th scope="col">Username</th>
+                        <th scope="col">Permission</th>
+                        <th scope="col">Actions</th>
+                    </tr>
+                    </thead>
 
-                <tbody>
-                <tr v-for="(row, index) in rows" :key="index">
-                    <td class="align-middle">{{ index + 1 }}</td>
-                    <td class="align-middle">{{ row.username }}</td>
-                    <td class="align-middle">{{ row.permission }} </td>
-                    <td class="align-middle">
-                        <div v-if="row.toDelete">
-                            Deleted
+                    <tbody>
+                    <tr v-for="(row, index) in rows" :key="index">
+                        <td class="align-middle">{{ index + 1 }}</td>
+                        <td class="align-middle">{{ row.username }}</td>
+                        <td class="align-middle">{{ row.permission }} </td>
+                        <td class="align-middle">
+                            <div v-if="row.toDelete">
+                                Deleted
+
+                                <b-button variant="danger"
+                                          class="mb-2"
+                                >
+                                    Undo
+                                </b-button>
+                            </div>
 
                             <b-button variant="danger"
-                                      class="mb-2"
-                            >
-                                Undo
+                                      class="mb-2 mx-1"
+
+                                      id="custom-button">
+                                Discard
                             </b-button>
-                        </div>
+                            <b-button variant="success"
+                                      class="mb-2 mx-1"
 
-                        <b-button variant="danger"
-                                  class="mb-2 mx-1"
+                                      id="custom-button">
+                                Validate
+                            </b-button>
+                        </td>
+                    </tr>
 
-                                  id="custom-button">
-                        Discard
-                        </b-button>
-                        <b-button variant="success"
-                                  class="mb-2 mx-1"
-
-                                  id="custom-button">
-                        Validate
-                        </b-button>
-                    </td>
-                </tr>
-
-                </tbody>
-            </table>
+                    </tbody>
+                </table>
+            </div>
         </div>
+
     </main>
 </template>
 

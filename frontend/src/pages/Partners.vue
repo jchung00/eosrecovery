@@ -11,21 +11,20 @@
             </div>
             <!-- End of jumbotron -->
         </div>
+        <div class="container">
+            <div class="table-responsive">
 
-        <div class="table-responsive">
-            <h3 class="mb-3">Current Recovery Partners</h3>
-
-            <table class="table">
-                <thead class="thead-dark">
+                <table class="table">
+                    <thead class="thead">
                     <tr>
                         <th scope="col">#</th>
                         <th scope="col">Username</th>
                         <th scope="col">Permission</th>
                         <th scope="col">Actions</th>
                     </tr>
-                </thead>
+                    </thead>
 
-                <tbody>
+                    <tbody>
                     <tr v-for="(row, index) in rows" :key="index">
                         <td class="align-middle">{{ index + 1 }}</td>
                         <td class="align-middle">{{ row.username }}</td>
@@ -36,7 +35,7 @@
 
                                 <b-button variant="danger"
                                           class="mb-2"
-                                          >
+                                >
                                     Undo
                                 </b-button>
                             </div>
@@ -61,26 +60,28 @@
                         </td>
                         <td>
                             <b-button
-                                variant="success"
-                                class="mb-2"
-                                @click="addPartner"
-                                id="custom-button"
+                                    variant="success"
+                                    class="mb-2"
+                                    @click="addPartner"
+                                    id="custom-button"
                             >
                                 Add Partner
                             </b-button>
                         </td>
                     </tr>
-                </tbody>
-            </table>
+                    </tbody>
+                </table>
+            </div>
+
+            <b-button variant="success"
+                      class="mb-2"
+                      @click="savePartners"
+                      id="custom-button"
+            >
+                Save recovery partners
+            </b-button>
         </div>
 
-        <b-button variant="success"
-                  class="mb-2"
-                  @click="savePartners"
-                  id="custom-button"
-        >
-            Save recovery partners
-        </b-button>
     </main>
 </template>
 
