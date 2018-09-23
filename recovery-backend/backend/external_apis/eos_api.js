@@ -108,36 +108,6 @@ function getProposalById(proposalId) {
         });
 }
 
-function getProposalByOwner(proposer) {
-    return getTableRows(recoveryAccount, recoveryAccount, 'proposals', null, format.encodeName(proposer, false), 1, 'i64', 1)
-        .then(function(result) {
-            if (!_.isEmpty(result.rows)) {
-                return result.rows[0];
-            }
-            return {};
-        });
-}
-
-function getRejectedProposalById(proposalId) {
-    return getTableRows(recoveryAccount, recoveryAccount, 'rejectedpros', null, proposalId, 1, 'i64', 2)
-        .then(function(result) {
-            if (!_.isEmpty(result.rows)) {
-                return result.rows[0];
-            }
-            return {};
-        });
-}
-
-function getFinishedProposalById(proposalId) {
-    return getTableRows(wpsAccount, wpsAccount, 'finishedpros', null, proposalId, 1, 'i64', 2)
-        .then(function(result) {
-            if (!_.isEmpty(result.rows)) {
-                return result.rows[0];
-            }
-            return {};
-        });
-}
-
 function getCurrencyStats(endpoint) {
     const tokenAccount = eosNodeConfig.tokenAccount;
     const options = getConfig(endpoint);
@@ -151,9 +121,7 @@ function getEos(endpoint) {
 }
 
 module.exports = exports = {getInfo, getBlock, getTableRows,
-    getVoterInfo, getProposalById, getProposalByOwner,
-    getRejectedProposalById, getFinishedProposalById,
-    getCurrencyStats,
+    getVoterInfo, getProposalById, getCurrencyStats,
     getEos,
 };
 
