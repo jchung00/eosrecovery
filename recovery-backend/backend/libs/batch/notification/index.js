@@ -31,7 +31,7 @@ async function notify() {
 async function _notifySet(noti) {
     let recover = await Recovery.findOne({account : noti.account});
     console.log('set', noti);
-    if (!_.isEmpty(recover)) {
+    if (!_.isEmpty(recover) && !_.isEmpty(recover.cell_hash)) {
         await smsApi.sendSMS('+' + recover.cell_hash, `Did you set up recovery for the ${noti.account} EOS account?`);
         /*
         const decoded = jwt.decode(recover.cell_hash, noti.account);
@@ -44,7 +44,6 @@ async function _notifySet(noti) {
         */
     }
     if (!_.isEmpty(noti)) {
-        console.log('remove');
         return noti.remove();
     }
 }
@@ -52,7 +51,7 @@ async function _notifySet(noti) {
 async function _notifyRecover(noti) {
     console.log('recover', noti);
     let recover = await Recovery.findOne({account : noti.account});
-    if (!_.isEmpty(recover)) {
+    if (!_.isEmpty(recover) && !_.isEmpty(recover.cell_hash)) {
         if (noti.agree === true) {
             await smsApi.sendSMS('+' + recover.cell_hash, `${noti.account} approves the recovery request.`);
         } else {
