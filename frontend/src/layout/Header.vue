@@ -4,7 +4,7 @@
 
     <!--Brand Logo-->
     <b-navbar-brand to="/">
-      Home
+      eos.ar
     </b-navbar-brand>
 
     <b-navbar-toggle target="nav_collapse"></b-navbar-toggle>
@@ -12,8 +12,9 @@
     <b-collapse is-nav id="nav_collapse">
       <!-- Left elements -->
       <b-navbar-nav>
-        <b-nav-item to="partners" class="mx-1">Recovery Partners</b-nav-item>
+        <b-nav-item to="partners" class="mx-1">Manage Partners</b-nav-item>
         <b-nav-item to="recover" class="mx-1">Recover Account</b-nav-item>
+        <b-nav-item to="requests" class="mx-1">Requests</b-nav-item>
       </b-navbar-nav>
 
       <!-- Right elements -->
@@ -96,4 +97,7 @@ export default {
   color: #42b983;
 }
 
+.nav-link.active {
+  color: red;
+}
 </style>

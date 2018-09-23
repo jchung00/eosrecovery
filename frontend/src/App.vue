@@ -1,5 +1,8 @@
 <template>
   <div id="app">
+    <head>
+      <link href="https://fonts.googleapis.com/css?family=Roboto+Condensed" rel="stylesheet">
+    </head>
     <AppHeader></AppHeader>
     <b-container fluid id="main-wrapper">
       <transition name="fade">
@@ -34,7 +37,7 @@ export default {
 
 <style>
 #app {
-  font-family: 'Avenir', Helvetica, Arial, sans-serif;
+  font-family: 'Roboto Condensed', Avenir, Arial, sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   text-align: center;

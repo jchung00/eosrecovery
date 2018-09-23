@@ -7,20 +7,22 @@
           EOS Account Recovery
         </h1>
         <p class="mb-5">
-          Setup your account recovery partners
+        Don't loose an account ever again, secure it via trusted eos.io relationships.
         </p>
         <b-button
                 variant="success"
                 size="lg"
                 id="custom-button"
-                class="mx-2">
+                class="mx-2"
+                to="partners">
             Manage Partners
         </b-button>
         <b-button
                 variant="light"
                 size="lg"
                 id="custom-button"
-                class="mx-2">
+                class="mx-2"
+                to="recover">
             Recover Account
         </b-button>
       </div>
@@ -32,10 +34,10 @@
           <div class="row">
               <div class="col-lg-4">
                   <div class="thumbnail text-center">
-                      <img src="@/assets/anonymity.svg">
-                      <h3>Privacy</h3>
+                      <img src="@/assets/ledger.svg">
+                      <h3>Property</h3>
                       <div class="caption">
-                          <p>Addedvalue Content</p>
+                          <p>Your account is yours forever</p>
                       </div>
                   </div>
               </div>
@@ -45,7 +47,7 @@
                       <img src="@/assets/encryption.svg">
                       <h3>Security</h3>
                       <div class="caption">
-                          <p>30 days account recovery solution</p>
+                          <p>Social proof via trusted relationships</p>
                       </div>
                   </div>
               </div>
@@ -55,7 +57,7 @@
                       <img src="@/assets/wallet.svg">
                       <h3>Recovery</h3>
                       <div class="caption">
-                          <p>No more lost account</p>
+                          <p>Retrieve your funds in any cases</p>
                       </div>
                   </div>
               </div>
@@ -82,7 +84,7 @@
     padding-left: 0;
     padding-right: 0;
     margin-top: 60px;
-    min-height: 100vh;
+    min-height: 90vh;
 }
 
 #custom-button {
@@ -92,4 +94,14 @@
 #icon-logo {
     height: 100px;
 }
+
+@font-face {
+    font-family: Roboto;
+    src: url(https://fonts.googleapis.com/css?family=Roboto) format("opentype");
+}
+
+body {
+    font-family: Roboto;
+}
+
 </style>

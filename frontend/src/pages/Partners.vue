@@ -1,6 +1,6 @@
 <template>
     <main role="main">
-        <div class="jumbotron jumbotron-fluid">
+        <div class="jumbotron jumbotron-fluid mb-3 py-5">
             <div class="container">
                 <h1 class="display-6">
                     Account Name here
@@ -12,11 +12,11 @@
             <!-- End of jumbotron -->
         </div>
 
-        <div>
-            <h3>Current Recovery Partners</h3>
+        <div class="table-responsive">
+            <h3 class="mb-3">Current Recovery Partners</h3>
 
             <table class="table">
-                <thead>
+                <thead class="thead-dark">
                     <tr>
                         <th scope="col">#</th>
                         <th scope="col">Username</th>
@@ -27,15 +27,16 @@
 
                 <tbody>
                     <tr v-for="(row, index) in rows" :key="index">
-                        <td>{{ index + 1 }}</td>
-                        <td>{{ row.username }}</td>
-                        <td>{{ row.permission }} </td>
-                        <td>
+                        <td class="align-middle">{{ index + 1 }}</td>
+                        <td class="align-middle">{{ row.username }}</td>
+                        <td class="align-middle">{{ row.permission }} </td>
+                        <td class="align-middle">
                             <div v-if="row.toDelete">
-                                Deleted 
+                                Deleted
 
                                 <b-button variant="danger"
-                                          class="mb-2">
+                                          class="mb-2"
+                                          >
                                     Undo
                                 </b-button>
                             </div>
@@ -43,7 +44,8 @@
                             <b-button variant="danger"
                                       class="mb-2"
                                       @click="deletePartner(index)"
-                                      v-else>
+                                      v-else
+                                      id="custom-button">
                                 Delete Partner
                             </b-button>
                         </td>
@@ -62,6 +64,7 @@
                                 variant="success"
                                 class="mb-2"
                                 @click="addPartner"
+                                id="custom-button"
                             >
                                 Add Partner
                             </b-button>
@@ -74,6 +77,7 @@
         <b-button variant="success"
                   class="mb-2"
                   @click="savePartners"
+                  id="custom-button"
         >
             Save recovery partners
         </b-button>
@@ -136,4 +140,9 @@ export default {
         background: red;
         height: 20px;
     }
+
+    #custom-button {
+        border-radius: 25px;
+    }
+
 </style>
