@@ -1,7 +1,7 @@
 # EOSIO Recovery Contract
 ## Version : 1.0.0
 
-These smart contracts are referred to game score.
+A contract that recoveries a user's owner account key.
 
 Dependencies:
 * [eosio v1.2.x](https://github.com/eosio/eos)
@@ -29,7 +29,7 @@ cd build/tests
 
 ## deploy
 ### jungle
-cleos -u http://jungle.cryptolions.io:18888 set contract eosrecovery1 twcvr/bin/twcvr/ -p eosrecovery1
+cleos -u http://jungle.cryptolions.io:18888 set contract eosrecovery1 recovery/bin/recovery/ -p eosrecovery1
 
 ### live
 cleos -u user-api.eoseoul.io set contract eosrecovery1 recovery/bin/recovery/ -p eosrecovery1
@@ -37,8 +37,3 @@ cleos -u user-api.eoseoul.io set contract eosrecovery1 recovery/bin/recovery/ -p
 ## Actions
 Note: When the required authority is `_self`, it means that the authority of the contract account is required.
 
-#### regrecord
-Required authority: `owner`
-Parameters: `account_name owner, uint16_t music_id, uint32_t score`
-
-Description: record game score for music. All fields are required.
