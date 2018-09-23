@@ -61,6 +61,7 @@ namespace recovery{
                                                      backups)
             );
             out.delay_sec = recovery_env.set_recovery_delay_time;
+            cancel_deferred(owner);
             out.send(owner, owner, true);
         }
     }
@@ -186,6 +187,7 @@ namespace recovery{
                                  N(updateauth),
                                  std::make_tuple(owner, N(active), N(owner), auth));
         out.delay_sec = recovery_env.reset_time;
+        cancel_deferred(owner);
         out.send(owner, owner, true);
     }
 } //recovery
