@@ -1,24 +1,24 @@
 {
     "apps" : [{
-        "name"      : "WPS-DEV-API",
+        "name"      : "RECOVERY-DEV-API",
         "script"    : "bin/www",
         "instances" : 1,
         "exec_mode" : "cluster_mode",
         "max_memory_restart" : "800M",
         "env": {
             "COMMON_VARIABLE": "true",
-            "PORT" : 3002,
+            "PORT" : 4002,
             "NODE_ENV": "developer",
             "NODE_PATH" : "."
         }
     }, {
-        "name"      : "WPS-DEV-BATCH-1001",
+        "name"      : "RECOVERY-DEV-BATCH-1001",
         "script"    : "bin/www",
         "instances" : 1,
         "exec_mode" : "cluster_mode",
         "env": {
             "COMMON_VARIABLE": "true",
-            "PORT" : 3003,
+            "PORT" : 4003,
             "NODE_PATH": ".",
             "NODE_ENV": "developer",
             "NODE_JOB_GROUP" : "Block",
