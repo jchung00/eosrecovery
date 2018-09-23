@@ -3,14 +3,10 @@
         <div class="jumbotron jumbotron-fluid mb-2 py-5">
             <div class="container">
                 <h1 class="display-6">
-                Recovery Console
+                    Recovery Console
                 </h1>
                 <p>
-<<<<<<< HEAD
                     Recover your account.
-=======
-                Initiate account recovery process
->>>>>>> 0951df7b71b59bcf05748d9bc04a126894cd5c30
                 </p>
             </div>
         </div>
@@ -22,23 +18,10 @@
                 <div class="col"></div>
 
                 <div class="col-md-6">
-                    <b-form @submit="onSubmit" @reset="onReset" v-if="show">
-
-                        <b-form-group id="accountRecovery"
-                                      label="Scatter Account Name"
-                                      label-for="accountName"
-                                      class="text-left"
-                                      >
-                            <b-form-input id="accountName"
-                                          type="text"
-                                          v-model="form.account"
-                                          required
-                                          placeholder="Enter Account Name">
-                            </b-form-input>
-                        </b-form-group>
+                    <b-form v-if="show">
 
                         <b-form-group id="exampleInputGroup2"
-                                      label="EOS Account Name"
+                                      label="EOS Account to Recover"
                                       label-for="exampleInput2"
                                       required
                                       class="text-left"
@@ -47,12 +30,12 @@
                                           type="text"
                                           v-model="form.eosAccount"
                                           required
-                                          placeholder="Enter EOS Account Name">
+                                          placeholder="Enter EOS Account Name to Recover">
                             </b-form-input>
                         </b-form-group>
 
                         <b-form-group id="exampleInputGroup2"
-                                      label="Public Key"
+                                      label="New Public Key"
                                       label-for="publicKey"
                                       required
                                       class="text-left"
@@ -61,13 +44,14 @@
                                           type="text"
                                           v-model="form.publicKey"
                                           required
-                                          placeholder="Enter Public Key">
+                                          placeholder="Enter New Public Key for Recovered Account">
                             </b-form-input>
                         </b-form-group>
-
-                        <b-button type="submit" variant="primary" class="mx-2" id="custom-button">Submit and Recover Account</b-button>
-                        <b-button type="reset" variant="danger" class="mx-2" id="custom-button">Reset</b-button>
                     </b-form>
+
+
+                    <b-button type="submit" variant="primary" class="mx-2" id="custom-button" @click="recover">Recover Account</b-button>
+                    <b-button type="reset" variant="danger" class="mx-2" id="custom-button">Reset</b-button>
                 </div>
 
                 <div class="col"></div>
@@ -80,6 +64,9 @@
 </template>
 
 <script>
+import EOS from 'eosjs'
+import { mapGetters, mapState } from 'vuex'
+
 export default {
   name: 'Recover',
 
@@ -94,9 +81,35 @@ export default {
     }
   },
 
+  computed: {
+    ...mapState({
+      scatter: state => state.scatter.scatter
+    }),
+    ...mapGetters({
+      scatterAccount: 'scatter/scatterAccount'
+    })
+  },
+
   methods: {
     recover () {
+        let eosjs = this.scatter.eos({
+            chain: 'jungle',
+            blockchain: 'eos',
+            chainId: '038f4b0fc8ff18a4f0842a8f0564611f6e96e8535901dd45e43ac8691a1c4dca',
+            port: 443,
+            protocol: 'https',
+            host: 'api.jungle.alohaeos.com',
+            httpEndpoint: 'https://api.jungle.alohaeos.com'
+        }, EOS)
 
+        let options = { authorization:[`${this.scatterAccount.name}@${this.scatterAccount.authority}`] };
+
+        eosjs.transaction(
+            'forgoteoskey', 
+            contract => {
+                contract.setrecovery(this.scatterAccount.name, this.rows, "", options);
+            }
+        )
     }
   }
 }

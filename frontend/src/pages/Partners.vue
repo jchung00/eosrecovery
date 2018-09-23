@@ -2,15 +2,11 @@
     <main role="main">
         <div class="jumbotron jumbotron-fluid mb-3 py-5">
             <div class="container">
-                <h1 class="display-6">
-                Account Name here
+                <h1 class="display-6" v-if="scatterAccount.name">
+                    {{ scatterAccount.name }}
                 </h1>
                 <p>
-<<<<<<< HEAD
                     Setup your account recovery partners (2/3 + 1 to recover)
-=======
-                Setup your account recovery partners
->>>>>>> 0951df7b71b59bcf05748d9bc04a126894cd5c30
                 </p>
             </div>
             <!-- End of jumbotron -->
@@ -28,43 +24,57 @@
                     </thead>
 
                     <tbody>
-                        <tr v-for="(row, index) in rows" :key="index">
-                            <td class="align-middle">{{ index + 1 }}</td>
-                            <td class="align-middle">{{ row }}</td>
-                            <td class="align-middle">
-                                <b-button variant="danger"
-                                        class="mb-2"
-                                        @click="deletePartner(index)"
-                                        id="custom-button">
-                                    Delete Partner
-                                </b-button>
-                            </td>
-                        </tr>
+                    <tr v-for="(row, index) in rows" :key="index">
+                        <td class="align-middle">{{ index + 1 }}</td>
+                        <td class="align-middle">{{ row }}</td>
+                        <td class="align-middle">
+                            <b-button variant="danger"
+                                      class="mb-2"
+                                      @click="deletePartner(index)"
+                                      id="custom-button">
+                                Delete Partner
+                            </b-button>
+                        </td>
+                    </tr>
 
-                        <tr>
-                            <td>{{ rows.length + 1 }}</td>
-                            <td>
-                                <input v-model="newUsername" required/>
-                            </td>
-                            <td>
-                                <b-button
-                                        variant="success"
-                                        class="mb-2"
-                                        @click="addPartner"
-                                        id="custom-button"
+                    <tr>
+                        <td>{{ rows.length + 1 }}</td>
+                        <td>
+                                <b-form-input v-model="newUsername"
+                                              type="text"
+                                              placeholder="Enter Username"
+                                              required
+                                              id="custom-input"
                                 >
-                                    Add Partner
-                                </b-button>
-                            </td>
-                        </tr>
+                                </b-form-input>
+                        </td>
+                        <td>
+                            <b-button
+                                    variant="success"
+                                    class="mb-2"
+                                    @click="addPartner"
+                                    id="custom-button"
+                            >
+                                Add Partner
+                            </b-button>
+                        </td>
+                    </tr>
                     </tbody>
                 </table>
             </div>
+
+            <b-button variant=""
+                v-if="!scatterAccount || rows.length === 0"
+                :disabled="!scatterAccount || rows.length === 0"
+            >
+                Add Recovery Partners
+            </b-button>
 
             <b-button variant="success"
                       class="mb-2"
                       @click="savePartners"
                       id="custom-button"
+                      v-else
             >
                 Save recovery partners
             </b-button>
@@ -74,7 +84,7 @@
 
 <script>
 import EOS from 'eosjs'
-import {mapGetters} from 'vuex'
+import {mapGetters, mapState} from 'vuex'
 
 export default {
   name: 'Partners',
@@ -87,6 +97,9 @@ export default {
   },
 
   computed: {
+    ...mapState({
+      scatter: state => state.scatter.scatter
+    }),
     ...mapGetters({
       scatterAccount: 'scatter/scatterAccount'
     })
@@ -109,16 +122,18 @@ export default {
             chain: 'jungle',
             blockchain: 'eos',
             chainId: '038f4b0fc8ff18a4f0842a8f0564611f6e96e8535901dd45e43ac8691a1c4dca',
-            port: 80,
-            protocol: 'http',
+            port: 443,
+            protocol: 'https',
             host: 'api.jungle.alohaeos.com',
-            httpEndpoint: 'http://api.jungle.alohaeos.com'
+            httpEndpoint: 'https://api.jungle.alohaeos.com'
         }, EOS)
+
+        let options = { authorization:[`${this.scatterAccount.name}@${this.scatterAccount.authority}`] };
 
         eosjs.transaction(
             'forgoteoskey', 
             contract => {
-                contract.setrecovery(this.scatterAccount, this.rows, "");
+                contract.setrecovery(this.scatterAccount.name, this.rows, "", options);
             }
         )
       }
