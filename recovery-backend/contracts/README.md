@@ -29,10 +29,10 @@ cd build/tests
 
 ## deploy
 ### jungle
-cleos -u http://jungle.cryptolions.io:18888 set contract eosrecovery1 recovery/bin/recovery/ -p eosrecovery1
+cleos -u http://jungle.cryptolions.io:18888 set contract lostorstolen twcvr/bin/twcvr/ -p lostorstolen
 
 ### live
-cleos -u user-api.eoseoul.io set contract eosrecovery1 recovery/bin/recovery/ -p eosrecovery1
+cleos -u user-api.eoseoul.io set contract lostorstolen recovery/bin/recovery/ -p lostorstolen
 
 ## Actions
 Note: When the required authority is `_self`, it means that the authority of the contract account is required.
