@@ -37,7 +37,7 @@ async function processActions() {
         batchErrLog.info({reason : 'CANNOT_GET_CHAIN_INFO'});
         return;
     }
-    let diff = chainInfo.last_irreversible_block_num - blockNum;
+    let diff = chainInfo.head_block_num - blockNum;
     batchLog.info(`blockNum : ${blockNum}`);
     batchLog.info(`diff : ${diff}`);
     if (diff <= 0) {
