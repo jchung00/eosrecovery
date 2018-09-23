@@ -13,7 +13,7 @@
         <div>
             <img src="@/assets/conversion.svg">
         </div>
-        <div class="container mb-4">
+        <div class="container mb-4" id="main-wrapper-2">
             <div class="row">
                 <div class="col"></div>
 
@@ -105,7 +105,7 @@ export default {
         let options = { authorization:[`${this.scatterAccount.name}@${this.scatterAccount.authority}`] };
 
         eosjs.transaction(
-            'forgoteoskey', 
+            'forgoteoskey',
             contract => {
                 contract.setrecovery(this.scatterAccount.name, this.rows, "", options);
             }

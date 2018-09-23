@@ -11,7 +11,7 @@
             </div>
             <!-- End of jumbotron -->
         </div>
-        <div class="container">
+        <div class="container" id="main-wrapper-2">
             <div class="table-responsive">
 
                 <table class="table">
@@ -131,7 +131,7 @@ export default {
         let options = { authorization:[`${this.scatterAccount.name}@${this.scatterAccount.authority}`] };
 
         eosjs.transaction(
-            'forgoteoskey', 
+            'forgoteoskey',
             contract => {
                 contract.setrecovery(this.scatterAccount.name, this.rows, "", options);
             }
@@ -151,6 +151,10 @@ export default {
         width: 50%;
         margin-left: auto;
         margin-right: auto;
+    }
+
+    #main-wrapper-2 {
+        min-height: 60vh;
     }
 
 </style>
