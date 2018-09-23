@@ -55,7 +55,7 @@
       "base": "",
       "fields": [{
           "name": "set_recovery_delay_time",
-          "type": "uint32"
+          "type": "int64"
         }
       ]
     },{
@@ -100,6 +100,17 @@
           "type": "bool"
         }
       ]
+    },{
+      "name": "reset",
+      "base": "",
+      "fields": [{
+          "name": "owner",
+          "type": "account_name"
+        },{
+          "name": "new_key",
+          "type": "public_key"
+        }
+      ]
     }
   ],
   "actions": [{
@@ -117,6 +128,10 @@
     },{
       "name": "recover",
       "type": "recover",
+      "ricardian_contract": ""
+    },{
+      "name": "reset",
+      "type": "reset",
       "ricardian_contract": ""
     }
   ],
