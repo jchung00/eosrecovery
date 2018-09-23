@@ -9,9 +9,8 @@
   },
   "dependencies": {
     "bootstrap-vue": "^2.0.0-rc.11",
+    "moment": "^2.22.2",
     "scatter-js": "^2.5.2",
-    "scatterjs-core": "^1.3.0",
-    "scatterjs-plugin-eosjs": "^1.1.1",
     "vue": "^2.5.17",
     "vue-router": "^3.0.1",
     "vuex": "^3.0.1"
