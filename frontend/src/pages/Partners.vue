@@ -6,7 +6,7 @@
                     {{ scatterAccount.name }}
                 </h1>
                 <p>
-                    Setup your account recovery partners (2/3 + 1 to recover)
+                    Setup your account recovery partners (2/3 + 1 to recover, 7 days to change)
                 </p>
             </div>
             <!-- End of jumbotron -->
@@ -78,6 +78,13 @@
             >
                 Save recovery partners
             </b-button>
+
+            <b-alert variant="success" dismissible class="mt-3" :show="success">Partners Successfully Added</b-alert>
+            <b-alert variant="danger"
+                     dismissible
+                     :show="error">
+                {{ error }}
+            </b-alert>
         </div>
     </main>
 </template>
@@ -94,7 +101,10 @@ export default {
     return {
         newUsername: null,
         rows: [],
-        lastSetTime: null
+        lastSetTime: null,
+        account: null,
+        success: null,
+        error: null
     }
   },
 
@@ -108,11 +118,11 @@ export default {
   },
 
   watch: {
-      scatterAccount: function(newScatterAccount, oldScatterAccount) {
+      scatterAccount: function(newScatterAccount, oldScatterAccount) {          
           if (newScatterAccount && newScatterAccount.name) {
               this.updateAccounts()
           } else if (!newScatterAccount) {
-              this.rows = null
+              this.rows = []
           }
       }
   },
@@ -134,13 +144,12 @@ export default {
             scope: 'lostorstolen',
             table: 'recoverinfo',
             table_key: '',
-            lower_bound: this.scatterAccount.name ? this.scatterAccount.name : '',
-            key_type: 'name',
-            limit: 1
+            lower_bound: this.scatterAccount.name,
+            key_type: 'name'
         }).then(({rows}) => {
-            let {backups, last_set_time, owner} = rows[0]
+            let { backups, last_set_time, owner } = rows[0]
 
-            if (this.scatterAccount.name === owner) {
+            if (backups && last_set_time) {
                 this.rows = backups
                 this.lastSetTime = last_set_time 
             }
@@ -176,14 +185,20 @@ export default {
             contract => {
                 contract.setrecovery(this.scatterAccount.name, this.rows, "", options);
             }
-        )
+        ).then((msg) => {
+            this.success = msg
+        }).catch((error) => {
+            this.error = error
+        })
       }
   },
 
   beforeRouteEnter (to, from, next) {
-    next(vm => {
-        vm.updateAccounts()
-    })
+      next(vm => {
+          if (vm.scatterAccount && vm.scatterAccount.name) {
+              vm.updateAccounts()
+          }
+      })
   }
 }
 </script>

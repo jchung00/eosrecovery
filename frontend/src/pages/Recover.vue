@@ -113,7 +113,7 @@ export default {
             contract => {
                 contract.recover(eosAccount, this.scatterAccount.name, publicKey, 1, options);
             }
-        ).then(success => {
+        ).then(() => {
             this.success = true
         })
     }
