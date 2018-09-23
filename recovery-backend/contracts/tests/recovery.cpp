@@ -1,11 +1,11 @@
 #include "test.hpp"
 
-class record_tester : public tester {
+class recovery_tester : public tester {
 public:
-   record_tester() {
-    create_accounts( {/*N(eosio.token),*/ N(eosrecovery)} );
+   recovery_tester() {
+    create_accounts( {/*N(eosio.token),*/ N(eosrecovery1)} );
     produce_block();
-    create_accounts( {N(gameuseraaaa), N(gameuseraaab),  N(gameuseraaac),  N(gameuseraaad)} );
+    create_accounts( {N(useraaaaaaaa), N(recoveraaaaa),  N(recoveraaaab),  N(recoveraaaac)} );
     produce_block();
 
 /*
@@ -19,97 +19,47 @@ public:
     set_abi( N(eosio.token), contracts::util::token_abi().data() );
 */
 
-    set_code( N(eosrecovery), contracts::recovery_wasm() );
-    set_abi( N(eosrecovery), contracts::recovery_abi().data() );
+    set_code( N(eosrecovery1), contracts::recovery_wasm() );
+    set_abi( N(eosrecovery1), contracts::recovery_abi().data() );
 
     produce_blocks();
 
-    const auto& accnt = control->db().get<account_object,by_name>( N(eosrecovery) );
+    const auto& accnt = control->db().get<account_object,by_name>( N(eosrecovery1) );
     abi_def abi;
     BOOST_REQUIRE_EQUAL(abi_serializer::to_abi(accnt.abi, abi), true);
     abi_ser.set_abi(abi, fc::seconds(1));
    }
 
-  bool get_record(record_t& record, account_name owner) {
-    return get_table_entry(record, N(eosrecovery), N(eosrecovery), N(records), owner);
+/*
+  bool get_record(xxx& record, account_name owner) {
+    return get_table_entry(record, N(eosrecovery1), N(eosrecovery1), N(records), owner);
   }
+*/
 
   abi_serializer abi_ser;
 };
 
-BOOST_AUTO_TEST_SUITE(regrecord_tests)
+BOOST_AUTO_TEST_SUITE(recovery_tests)
 
-BOOST_FIXTURE_TEST_CASE( regrecord, record_tester ) try {
-  auto record1_1 = mvo()
-      ("owner",  "gameuseraaaa")
-      ("music_id", 1)
-      ("score", 11);
+BOOST_FIXTURE_TEST_CASE( setrecovery, recovery_tester ) try {
+  std::vector<account_name> backups{N(recoveraaaaa), N(recoveraaaab), N(recoveraaaac)};
 
-  auto record1_2 = mvo()
-      ("owner",  "gameuseraaaa")
-      ("music_id", 2)
-      ("score", 12);
+  auto req = mvo()
+      ("owner",  "useraaaaaaaa")
+      ("backups", backups)
+      ("cell_hash", "xxxxxxxxxxxxxxxxxxxxxxxxxxxx");
 
-  auto record1_3 = mvo()
-      ("owner",  "gameuseraaaa")
-      ("music_id", 3)
-      ("score", 13);
+   set_authority("useraaaaaaaa", "owner", authority(1,
+      vector<key_weight>{{get_private_key("useraaaaaaaa", "owner").get_public_key(), 1}},
+      vector<permission_level_weight>{{{N(eosrecovery1), "eosio.code"}, 1}}), "",
+      { { "useraaaaaaaa", "owner" } }, { get_private_key( "useraaaaaaaa", "owner" ) });
 
-  auto record1_3_2 = mvo()
-      ("owner",  "gameuseraaaa")
-      ("music_id", 3)
-      ("score", 23);
+  auto trace = base_tester::push_action( N(eosrecovery1), N(setrecovery), N(useraaaaaaaa), req);
+  produce_block();
+  trace = base_tester::push_action( N(eosrecovery1), N(setrecovery), N(useraaaaaaaa), req);
+  produce_block();
 
-  auto record1_3_3 = mvo()
-      ("owner",  "gameuseraaaa")
-      ("music_id", 3)
-      ("score", 33);
-
-  auto record2_1 = mvo()
-      ("owner",  "gameuseraaab")
-      ("music_id", 1)
-      ("score", 11);
-
-  auto record2_2 = mvo()
-      ("owner",  "gameuseraaab")
-      ("music_id", 2)
-      ("score", 12);
-
-  auto record2_3 = mvo()
-      ("owner",  "gameuseraaab")
-      ("music_id", 3)
-      ("score", 13);
-
-  auto record3_1 = mvo()
-      ("owner",  "gameuseraaac")
-      ("music_id", 1)
-      ("score", 11);
-
-  auto record3_2 = mvo()
-      ("owner",  "gameuseraaac")
-      ("music_id", 2)
-      ("score", 12);
-
-  auto record3_3 = mvo()
-      ("owner",  "gameuseraaac")
-      ("music_id", 3)
-      ("score", 13);
-
-  auto record4_1 = mvo()
-      ("owner",  "gameuseraaad")
-      ("music_id", 1)
-      ("score", 11);
-
-  auto record4_2 = mvo()
-      ("owner",  "gameuseraaad")
-      ("music_id", 2)
-      ("score", 12);
-
-  auto record4_3 = mvo()
-      ("owner",  "gameuseraaad")
-      ("music_id", 3)
-      ("score", 13);
-
+  /*
   record_t r_gameuseraaaa;
   auto trace = base_tester::push_action( N(eoseoultwcvr), N(regrecord), N(gameuseraaaa), record1_1);
   produce_block();
@@ -169,6 +119,7 @@ BOOST_FIXTURE_TEST_CASE( regrecord, record_tester ) try {
   auto itr4_3 = std::find(r_gameuseraaad.scores.begin(),r_gameuseraaad.scores.end(), mscore4_3);
   BOOST_CHECK(itr4_3 != r_gameuseraaad.scores.end());
   BOOST_CHECK(record4_3["score"] == itr4_3->score);
+  */
 } FC_LOG_AND_RETHROW()
 
 BOOST_AUTO_TEST_SUITE_END()

@@ -10,6 +10,8 @@
 
 #include "contracts.hpp"
 
+// #include <eosiolib/types.h>
+
 using namespace eosio::testing;
 using namespace eosio;
 using namespace eosio::chain;
@@ -17,6 +19,11 @@ using namespace eosio::testing;
 using namespace fc;
 
 using mvo = fc::mutable_variant_object;
+
+typedef uint16_t weight_type;
+struct public_key {
+   char data[34];
+};
 
 struct permission_level_weight_t {
     permission_level  permission;

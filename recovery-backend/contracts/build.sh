@@ -1,6 +1,6 @@
 #! /bin/bash
 
-printf "\t=========== Building Tapsonic World Champion VR ===========\n\n"
+printf "\t=========== Building eosio recovery contract ===========\n\n"
 
 RED='\033[0;31m'
 NC='\033[0m'
