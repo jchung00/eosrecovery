@@ -38,7 +38,7 @@ namespace recovery{
 
         auto current_time = now();
 
-        if(itr == recovery_accounts.end()){
+        if(itr==recovery_accounts.end()){
             recovery_accounts.emplace(_self, [&](auto& recovery_info){
                 recovery_info.owner = owner;
                 recovery_info.backups = backups;
@@ -75,11 +75,12 @@ namespace recovery{
 
         auto recovery_env = m_recovery_env.get();
 
-        eosio_assert(current_time - (*itr).last_set_time > recovery_env.set_recovery_delay_time,
+        eosio_assert(current_time - (*itr).last_set_time > recovery_env.set_recovery_delay_time && (*itr).last_set_time >= 0,
                      "Change recovery time has not been exceeded.");
 
         recovery_accounts.modify(itr, 0, [&](auto& recovery_info){
            recovery_info.backups = backups;
+           recovery_info.last_set_time = -1;
         });
     }
 
