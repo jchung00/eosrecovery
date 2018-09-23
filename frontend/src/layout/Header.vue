@@ -4,7 +4,7 @@
 
     <!--Brand Logo-->
     <b-navbar-brand to="/">
-      <img img src="@/assets/eos-logo-small.png" style="height:22px;" alt="">
+      <img src="@/assets/eos-logo-small.png" style="height:22px;" alt="">
       eos.ar
     </b-navbar-brand>
 
