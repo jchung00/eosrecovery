@@ -74,6 +74,9 @@ async function processActions() {
                         if (_.isEmpty(trx)) {
                             return;
                         }
+                        if (_.isEmpty(trx.transaction)) {
+                            return;
+                        }
                         return _processActions(trx.transaction.actions, trx, blockNum);
                     });
                 }
