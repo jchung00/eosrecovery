@@ -115,14 +115,42 @@ function getCurrencyStats(endpoint) {
     return eos.getCurrencyStats(tokenAccount, 'EOS');
 }
 
+/* auth = {
+    'account': account,
+    'permission': permission,
+    'parent': parent,
+    'auth': {
+        'threshold': 1, 'keys': [], 'waits': [],
+        'accounts': [{
+            'weight': 1,
+            'permission': {'actor': controller, 'permission': 'active'}
+        }]
+    }
+}
+*/
+function updateauth(auth, key, endpoint) {
+    const options = getConfig(key, endpoint);
+    const eos = Eos(options);
+    return eos.contract('eosio')
+        .then((contract) => {
+            return contract.updateauth(auth, {authorization: `${auth.account}@${auth.permission}`});
+        })
+        .catch(function(err) {
+            if (typeof err === 'string') {
+                throw JSON.parse(err);
+            }
+            throw err;
+        });
+}
+
 function getEos(endpoint) {
     const options = getConfig(endpoint);
     return Eos(options);
 }
 
 module.exports = exports = {getInfo, getBlock, getTableRows,
-    getVoterInfo, getProposalById, getCurrencyStats,
-    getEos,
+    getVoterInfo, getProposalById, getCurrencyStats, updateauth,
+    getEos
 };
 
 
