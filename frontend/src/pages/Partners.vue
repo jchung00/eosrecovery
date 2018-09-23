@@ -2,7 +2,7 @@
     <main role="main">
         <div class="jumbotron jumbotron-fluid mb-3 py-5">
             <div class="container">
-                <h1 class="display-6" v-if="scatterAccount.name">
+                <h1 class="display-6" v-if="scatterAccount && scatterAccount.name">
                     {{ scatterAccount.name }}
                 </h1>
                 <p>
@@ -85,6 +85,7 @@
 <script>
 import EOS from 'eosjs'
 import {mapGetters, mapState} from 'vuex'
+import moment from 'moment'
 
 export default {
   name: 'Partners',
@@ -92,7 +93,8 @@ export default {
   data () {
     return {
         newUsername: null,
-        rows: []
+        rows: [],
+        lastSetTime: null
     }
   },
 
@@ -105,7 +107,44 @@ export default {
     })
   },
 
+  watch: {
+      scatterAccount: function(newScatterAccount, oldScatterAccount) {
+          if (newScatterAccount && newScatterAccount.name) {
+              this.updateAccounts()
+          }
+      }
+  },
+
   methods: {
+      parseDateTimestamp (timestamp) {
+        return moment(timestamp)
+      },
+
+      updateAccounts () {
+        let eosjs = EOS({
+            chainId: '038f4b0fc8ff18a4f0842a8f0564611f6e96e8535901dd45e43ac8691a1c4dca',
+            httpEndpoint: 'https://api.jungle.alohaeos.com'
+        })
+
+        eosjs.getTableRows({
+            json: true,
+            code: 'forgoteoskey',
+            scope: 'forgoteoskey',
+            table: 'recoverinfo',
+            table_key: '',
+            lower_bound: this.scatterAccount.name ? this.scatterAccount.name : '',
+            key_type: 'name',
+            limit: 1
+        }).then(({rows}) => {
+            let {backups, last_set_time, owner} = rows[0]
+
+            if (this.scatterAccount.name === owner) {
+                this.rows = backups
+                this.lastSetTime = last_set_time 
+            }
+        })
+      },
+
       addPartner () {
           if (this.newUsername) {
             this.rows.push(this.newUsername)

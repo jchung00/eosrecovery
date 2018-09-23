@@ -6,25 +6,58 @@
         <h1 class="display-6 mb-2">
           EOS Account Recovery
         </h1>
+
         <p class="mb-5">
-        Don't lose an account ever again, secure it via trusted eos.io relationships.
+          Don't lose an account ever again, secure it via trusted EOS contracts.
         </p>
+
         <b-button
                 variant="success"
                 size="lg"
                 id="custom-button"
                 class="mx-2"
-                to="partners">
-            Manage Partners
+                v-if="!scatter">
+            Download Scatter
         </b-button>
+
         <b-button
-                variant="light"
+                variant="success"
                 size="lg"
                 id="custom-button"
                 class="mx-2"
-                to="recover">
-            Recover Account
+                @click="linkIdentity"
+                v-if="scatter && !identity">
+            Link Scatter
         </b-button>
+
+        <b-button
+                variant="success"
+                size="lg"
+                id="custom-button"
+                class="mx-2"
+                @click="initialize"
+                v-if="scatter && identity && !permissions">
+            Initialize Contract
+        </b-button>
+
+        <div v-if="scatter && identity && permissions">
+          <b-button
+                  variant="success"
+                  size="lg"
+                  id="custom-button"
+                  class="mx-2"
+                  to="partners">
+              Manage Partners
+          </b-button>
+          <b-button
+                  variant="light"
+                  size="lg"
+                  id="custom-button"
+                  class="mx-2"
+                  to="recover">
+              Recover Account
+          </b-button>
+        </div>
       </div>
 
       <!-- End of jumbotron -->
@@ -68,6 +101,100 @@
       </div>
   </main>
 </template>
+
+
+<script>
+import EOS from 'eosjs'
+import {mapGetters, mapState, mapActions} from 'vuex'
+
+export default {
+  name: 'Home',
+
+  data () {
+    return {
+      account: null
+    }
+  },
+
+  watch: {
+      scatterAccount: function(newScatterAccount, oldScatterAccount) {
+          if (newScatterAccount && newScatterAccount.name) {
+            this.updateAccount()
+          }
+      }
+  },
+
+  computed: {
+    ...mapState({
+      scatter: state => state.scatter.scatter
+    }),
+    ...mapGetters({
+      identity: 'scatter/scatterIdentity',
+      scatterAccount: 'scatter/scatterAccount'
+    }),
+    permissions () {
+      if (!this.account) return null
+
+      let owner = this.account.permissions.find(permission => permission.perm_name === 'owner')
+
+      if(!owner) return null
+
+      let forgoteoskey = owner.required_auth.accounts.find(({permission}) => permission.actor === 'forgoteoskey' && permission.permission === 'eosio.code')
+      
+      if(!forgoteoskey) return null
+
+      return forgoteoskey
+    }
+  },
+  
+  methods: {
+    ...mapActions({
+      linkIdentity: 'scatter/LINK_IDENTITY'
+    }),
+
+    updateAccount () {
+      let eosjs = EOS({
+          chainId: '038f4b0fc8ff18a4f0842a8f0564611f6e96e8535901dd45e43ac8691a1c4dca',
+          httpEndpoint: 'https://api.jungle.alohaeos.com'
+      })
+      
+      eosjs.getAccount(this.scatterAccount.name).then(account => {
+        this.account = account
+      })
+    },
+
+    initialize () {
+      let eosjs = this.scatter.eos({
+          chain: 'jungle',
+          blockchain: 'eos',
+          chainId: '038f4b0fc8ff18a4f0842a8f0564611f6e96e8535901dd45e43ac8691a1c4dca',
+          port: 443,
+          protocol: 'https',
+          host: 'api.jungle.alohaeos.com',
+          httpEndpoint: 'https://api.jungle.alohaeos.com'
+      }, EOS)
+
+      let options = { authorization:[`${this.scatterAccount.name}@${this.scatterAccount.authority}`] };
+
+      eosjs.transaction(
+          'eosio', 
+          contract => {
+              contract.updateauth(this.scatterAccount.name, 
+                                  "owner", 
+                                  "", 
+                                  'forgoteoskey@eosio.code', 
+                                  options);
+          }
+      ).then(() => {
+        this.updateAccount()
+      })
+    }
+  },
+  mounted () {
+    this.updateAccount()
+  }
+}
+</script>
 
 <style>
 .jumbotron {

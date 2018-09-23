@@ -3,7 +3,6 @@ import Router from 'vue-router'
 
 // Pages
 import Home from './pages/Home.vue'
-import Initialize from './pages/Initialize.vue'
 import Partners from './pages/Partners.vue'
 import Recover from './pages/Recover.vue'
 import Requests from './pages/Requests.vue'
@@ -17,11 +16,6 @@ export default new Router({
       path: '/',
       name: 'home',
       component: Home
-    },
-    {
-      path: '/initialize',
-      name: 'Initialize',
-      component: Initialize
     },
     {
       path: '/partners',

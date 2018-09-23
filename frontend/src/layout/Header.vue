@@ -12,7 +12,6 @@
     <b-collapse is-nav id="nav_collapse">
       <!-- Left elements -->
       <b-navbar-nav>
-        <b-nav-item to="initialize" class="mx-1">Initialize</b-nav-item>
         <b-nav-item to="partners" class="mx-1">Manage Partners</b-nav-item>
         <b-nav-item to="recover" class="mx-1">Recover Account</b-nav-item>
         <b-nav-item to="requests" class="mx-1">Requests</b-nav-item>
