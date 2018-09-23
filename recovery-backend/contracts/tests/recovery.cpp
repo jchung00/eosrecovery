@@ -50,14 +50,40 @@ BOOST_FIXTURE_TEST_CASE( setrecovery, recovery_tester ) try {
       ("cell_hash", "xxxxxxxxxxxxxxxxxxxxxxxxxxxx");
 
    set_authority("useraaaaaaaa", "owner", authority(1,
-      vector<key_weight>{{get_private_key("useraaaaaaaa", "owner").get_public_key(), 1}},
+      vector<key_weight>{},
       vector<permission_level_weight>{{{N(eosrecovery1), "eosio.code"}, 1}}), "",
       { { "useraaaaaaaa", "owner" } }, { get_private_key( "useraaaaaaaa", "owner" ) });
 
   auto trace = base_tester::push_action( N(eosrecovery1), N(setrecovery), N(useraaaaaaaa), req);
   produce_block();
-  trace = base_tester::push_action( N(eosrecovery1), N(setrecovery), N(useraaaaaaaa), req);
+
+  auto recovery1 = mvo()
+      ("owner",  "useraaaaaaaa")
+      ("recoverer",  "recoveraaaaa")
+      ("new_key", get_private_key("useraaaaaaaa", "active").get_public_key()) 
+      ("agree", true);
+
+  trace = base_tester::push_action( N(eosrecovery1), N(recover), N(recoveraaaaa), recovery1);
   produce_block();
+
+  auto recovery2 = mvo()
+      ("owner",  "useraaaaaaaa")
+      ("recoverer",  "recoveraaaab")
+      ("new_key", get_private_key("useraaaaaaaa", "active").get_public_key())
+      ("agree", true);
+  trace = base_tester::push_action( N(eosrecovery1), N(recover), N(recoveraaaab), recovery2);
+  produce_block();
+
+  auto recovery3 = mvo()
+      ("owner",  "useraaaaaaaa")
+      ("recoverer",  "recoveraaaac")
+      ("new_key", get_private_key("useraaaaaaaa", "active").get_public_key())
+      ("agree", true);
+  trace = base_tester::push_action( N(eosrecovery1), N(recover), N(recoveraaaac), recovery3);
+  produce_block();
+
+  // trace = base_tester::push_action( N(eosrecovery1), N(setrecovery), N(useraaaaaaaa), req);
+  // produce_block();
 
   /*
   record_t r_gameuseraaaa;
