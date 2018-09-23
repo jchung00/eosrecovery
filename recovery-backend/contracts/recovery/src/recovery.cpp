@@ -35,17 +35,13 @@ namespace recovery{
         }
 
         auto recovery_env = m_recovery_env.get();
-
         auto current_time = now();
 
         if(itr==recovery_accounts.end()){
             recovery_accounts.emplace(_self, [&](auto& recovery_info){
                 recovery_info.owner = owner;
                 recovery_info.backups = backups;
-                //recovery_info.cell_hash = cell_hash;
                 recovery_info.last_set_time = current_time;
-                //recovery_info.rmv_recovery_start_time = 0;
-                //recovery_info.recover_start_time = 0;
             });
         }
 
@@ -54,10 +50,15 @@ namespace recovery{
                 recovery_info.last_set_time = current_time;
             });
 
+            // Transaction
             transaction out{};
 
-            out.actions.emplace_back(eosio::permission_level {_self, N(active)}, _self, N(chgrecovery),
-            std::make_tuple(owner, backups));
+            out.actions.emplace_back(eosio::permission_level {_self, N(active)},
+                                     _self,
+                                     N(chgrecovery),
+                                     std::make_tuple(owner,
+                                                     &backups)
+            );
             out.delay_sec = recovery_env.set_recovery_delay_time;
             out.send(owner, owner, true);
         }
@@ -72,15 +73,13 @@ namespace recovery{
         eosio_assert(itr != recovery_accounts.end(), "Account does not have recovery set up.");
 
         auto current_time = now();
-
         auto recovery_env = m_recovery_env.get();
 
-        eosio_assert(current_time - (*itr).last_set_time > recovery_env.set_recovery_delay_time && (*itr).last_set_time >= 0,
+        eosio_assert(current_time - (*itr).last_set_time > recovery_env.set_recovery_delay_time,
                      "Change recovery time has not been exceeded.");
 
         recovery_accounts.modify(itr, 0, [&](auto& recovery_info){
-           recovery_info.backups = backups;
-           recovery_info.last_set_time = -1;
+            recovery_info.backups = backups;
         });
     }
 
@@ -109,7 +108,6 @@ namespace recovery{
                     in_recovery_info.owner = owner;
                     in_recovery_info.backups = (*itr).backups;
                     in_recovery_info.new_key = new_key;
-                    //in_recovery_info.cell_hash = (*itr).cell_hash;
                     in_recovery_info.recover_start_time = current_time;
 
                     in_recovery_info.signed_recovery.push_back(recoverer);
@@ -119,7 +117,6 @@ namespace recovery{
                     in_recovery_info.owner = owner;
                     in_recovery_info.backups = (*itr).backups;
                     in_recovery_info.new_key = new_key;
-                    //in_recovery_info.cell_hash = (*itr).cell_hash;
                     in_recovery_info.recover_start_time = current_time;
 
                     in_recovery_info.declined_recovery.push_back(recoverer);
@@ -137,13 +134,14 @@ namespace recovery{
             }
             else{
                 if(agree) {
-                    in_recovery.modify(itr_account, 0, [&](auto& in_recovery_info) {
+                    in_recovery.modify(itr_account, _self, [&](auto& in_recovery_info) {
                         in_recovery_info.signed_recovery.push_back(recoverer);
                     });
 
                     if((*itr_account).signed_recovery.size() >= (((*itr_account).backups.size() * 2) / 3) + 1){
-                        authority auth{ 1, 0, {{new_key, 1}}, {} };
-                        eosio::action(eosio::permission_level{_self, N(active)},
+                        authority auth{ 1, {{new_key, 1}}, {}, {} };
+
+                        eosio::action(eosio::permission_level{owner, N(owner)},
                                       N(eosio),
                                       N(updateauth),
                                       std::make_tuple( owner,
@@ -151,11 +149,12 @@ namespace recovery{
                                                        N(owner),
                                                        auth))
                                       .send();
+
                         in_recovery.erase(itr_account);
                     }
                 }
                 else{
-                    in_recovery.modify(itr_account, 0, [&](auto& in_recovery_info) {
+                    in_recovery.modify(itr_account, _self, [&](auto& in_recovery_info) {
                         in_recovery_info.signed_recovery.push_back(recoverer);
                     });
 
