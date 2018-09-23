@@ -1,4 +1,4 @@
-#include "recovery.hpp"
+#include <recovery/recovery.hpp>
 
 namespace recovery{
     recovery_contract::recovery_contract(action_name self) : contract(self), m_recovery_env(self, self) {
