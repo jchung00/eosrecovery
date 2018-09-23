@@ -77,8 +77,9 @@ namespace recovery {
 
     //@abi table
     struct recovery_env {
-        uint64_t set_recovery_delay_time = 10;
-        EOSLIB_SERIALIZE( recovery_env, (set_recovery_delay_time));
+        uint64_t set_recovery_delay_time = 3*seconds_per_day;
+        uint64_t reset_time = 7*seconds_per_day;
+        EOSLIB_SERIALIZE( recovery_env, (set_recovery_delay_time)(reset_time));
     };
 
     typedef eosio::multi_index< N(recoverinfo), recovery_info > recovery_table;

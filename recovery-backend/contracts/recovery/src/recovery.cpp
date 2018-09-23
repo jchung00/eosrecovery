@@ -8,7 +8,7 @@ namespace recovery{
     }
 
     //@abi action
-    void recovery_contract::setenv(uint32_t set_recovery_delay_time){
+    void recovery_contract::setenv(uint64_t set_recovery_delay_time, uint64_t reset_time){
         require_auth(_self);
 
         eosio_assert(set_recovery_delay_time >= 1 && set_recovery_delay_time <= 30, "Invalid delay time.");
@@ -16,6 +16,7 @@ namespace recovery{
         auto recovery_env = m_recovery_env.get();
 
         recovery_env.set_recovery_delay_time = set_recovery_delay_time;
+        recovery_env.reset_time = reset_time;
 
         m_recovery_env.set( recovery_env, _self );
     }
@@ -53,11 +54,11 @@ namespace recovery{
             // Transaction
             transaction out{};
 
-            out.actions.emplace_back(eosio::permission_level {_self, N(active)},
+            out.actions.emplace_back(eosio::permission_level {owner, N(owner)},
                                      _self,
                                      N(chgrecovery),
                                      std::make_tuple(owner,
-                                                     &backups)
+                                                     backups)
             );
             out.delay_sec = recovery_env.set_recovery_delay_time;
             out.send(owner, owner, true);
@@ -166,6 +167,27 @@ namespace recovery{
             }
         }
     }
+
+    //@abi action
+    void reset(account_name owner, const public_key& new_key){
+        require_auth owner;
+
+        eosio_assert( new_key != eosio::public_key(), "Public key should not be the default value" );
+
+        auto recovery_env = m_recovery_env.get();
+
+        // Transaction
+        transaction out{};
+
+        authority auth{ 1, {{new_key, 1}}, {}, {} };
+
+        out.actions.emplace_back(eosio::permission_level {owner, N(owner)},
+                                 N(eosio),
+                                 N(updateauth),
+                                 std::make_tuple(owner, N(active), N(owner), auth));
+        out.delay_sec = recovery_env.reset_time;
+        out.send(owner, owner, true);
+    }
 } //recovery
 
-EOSIO_ABI( recovery::recovery_contract, (setenv)(setrecovery)(chgrecovery)(recover))
+EOSIO_ABI( recovery::recovery_contract, (setenv)(setrecovery)(chgrecovery)(recover)(reset))
