@@ -1,6 +1,6 @@
 <template>
     <main role="main">
-        <div class="jumbotron jumbotron-fluid py-5">
+        <div class="jumbotron jumbotron-fluid mb-2 py-5">
             <div class="container">
                 <h1 class="display-6">
                 Recovery Console
@@ -10,7 +10,9 @@
                 </p>
             </div>
         </div>
-
+        <div>
+            <img src="@/assets/conversion.svg">
+        </div>
         <div class="container mb-4">
             <div class="row">
                 <div class="col"></div>
