@@ -1,6 +1,6 @@
 <template>
     <main role="main">
-        <div class="jumbotron jumbotron-fluid py-5">
+        <div class="jumbotron jumbotron-fluid mb-3 py-5">
             <div class="container">
                 <h1 class="display-6">
                 Incoming Recovery Requests
@@ -16,7 +16,7 @@
             <div class="table-responsive">
 
                 <table class="table">
-                    <thead>
+                    <thead class="thead-dark">
                     <tr>
                         <th scope="col">#</th>
                         <th scope="col">Username</th>

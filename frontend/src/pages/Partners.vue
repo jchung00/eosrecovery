@@ -3,10 +3,14 @@
         <div class="jumbotron jumbotron-fluid mb-3 py-5">
             <div class="container">
                 <h1 class="display-6">
-                    Account Name here
+                Account Name here
                 </h1>
                 <p>
+<<<<<<< HEAD
                     Setup your account recovery partners (2/3 + 1 to recover)
+=======
+                Setup your account recovery partners
+>>>>>>> 0951df7b71b59bcf05748d9bc04a126894cd5c30
                 </p>
             </div>
             <!-- End of jumbotron -->
@@ -15,44 +19,44 @@
             <div class="table-responsive">
 
                 <table class="table">
-                    <thead class="thead">
-                    <tr>
-                        <th scope="col">#</th>
-                        <th scope="col">Username</th>
-                        <th scope="col">Actions</th>
-                    </tr>
+                    <thead class="thead-dark">
+                        <tr>
+                            <th scope="col">#</th>
+                            <th scope="col">Username</th>
+                            <th scope="col">Actions</th>
+                        </tr>
                     </thead>
 
                     <tbody>
-                    <tr v-for="(row, index) in rows" :key="index">
-                        <td class="align-middle">{{ index + 1 }}</td>
-                        <td class="align-middle">{{ row }}</td>
-                        <td class="align-middle">
-                            <b-button variant="danger"
-                                      class="mb-2"
-                                      @click="deletePartner(index)"
-                                      id="custom-button">
-                                Delete Partner
-                            </b-button>
-                        </td>
-                    </tr>
+                        <tr v-for="(row, index) in rows" :key="index">
+                            <td class="align-middle">{{ index + 1 }}</td>
+                            <td class="align-middle">{{ row }}</td>
+                            <td class="align-middle">
+                                <b-button variant="danger"
+                                        class="mb-2"
+                                        @click="deletePartner(index)"
+                                        id="custom-button">
+                                    Delete Partner
+                                </b-button>
+                            </td>
+                        </tr>
 
-                    <tr>
-                        <td>{{ rows.length + 1 }}</td>
-                        <td>
-                            <input v-model="newUsername" required/>
-                        </td>
-                        <td>
-                            <b-button
-                                    variant="success"
-                                    class="mb-2"
-                                    @click="addPartner"
-                                    id="custom-button"
-                            >
-                                Add Partner
-                            </b-button>
-                        </td>
-                    </tr>
+                        <tr>
+                            <td>{{ rows.length + 1 }}</td>
+                            <td>
+                                <input v-model="newUsername" required/>
+                            </td>
+                            <td>
+                                <b-button
+                                        variant="success"
+                                        class="mb-2"
+                                        @click="addPartner"
+                                        id="custom-button"
+                                >
+                                    Add Partner
+                                </b-button>
+                            </td>
+                        </tr>
                     </tbody>
                 </table>
             </div>
@@ -65,7 +69,6 @@
                 Save recovery partners
             </b-button>
         </div>
-
     </main>
 </template>
 
@@ -124,25 +127,15 @@ export default {
 </script>
 
 <style>
-    html, body {
-        height: 100%;
-    }
-    .main {
-        margin: 0 auto;
-        height: 100%;
-        padding: 20px 0;
-
-        -moz-box-sizing: border-box;
-        -webkit-box-sizing: border-box;
-        box-sizing: border-box;
-    }
-    .footer {
-        background: red;
-        height: 20px;
-    }
 
     #custom-button {
         border-radius: 25px;
+    }
+
+    #custom-input {
+        width: 50%;
+        margin-left: auto;
+        margin-right: auto;
     }
 
 </style>
