@@ -20,14 +20,14 @@
         "secret" : "c9b12787f151ecbcf1256442bb140069"
     },
     "eosNode" : {
-        "host" :"eosnet.eoseoul.io",
+        "host" :"dev.cryptolions.io",
         "protocol": "http",
-        "httpPort" : 8888,
+        "httpPort" : 38888,
         "systemAccount" : "eosio",
-        "recoveryAccount" : "eosrecovery",
+        "recoveryAccount" : "forgoteoskey",
         "tokenAccount" : "eosio.token",
         "symbol" : "EOS",
-        "chainId" : "a4fe43c897279a677025624555f3835b949f995f87923c97f0392dcff835bfd0",
+        "chainId" : "038f4b0fc8ff18a4f0842a8f0564611f6e96e8535901dd45e43ac8691a1c4dca",
     },
     "webLog" : {
         "level" : "info",

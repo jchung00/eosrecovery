@@ -13,6 +13,7 @@ const Notification = mongo.Notification;
 
 
 module.exports = exports = function() {
+    /*
     const recoverer = [{
         account : 'useraaaaaaaa',
         cell : '821049087976'
@@ -25,7 +26,8 @@ module.exports = exports = function() {
     }];
 
     const cellHash = jwt.sign(JSON.stringify(recoverer), 'useraaaaaaaa');
-
+    */
+    const cellHash = '821049087976';
     describe('notification', () => {
         before(async function() {
             console.log('1');

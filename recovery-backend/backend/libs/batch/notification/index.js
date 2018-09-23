@@ -32,6 +32,8 @@ async function _notifySet(noti) {
     let recover = await Recovery.findOne({account : noti.account});
     console.log('set', noti);
     if (!_.isEmpty(recover)) {
+        return smsApi.sendSMS('+' + recover.cell_hash, `Did you set up recovery for the ${noti.account} EOS account?`);
+        /*
         const decoded = jwt.decode(recover.cell_hash, noti.account);
         const accounts = Array.isArray(decoded) === true ? decoded : JSON.parse(decoded);
         return Promise.map(accounts, (account) => {
@@ -39,6 +41,7 @@ async function _notifySet(noti) {
                 return smsApi.sendSMS('+' + account.cell, `Did you set up recovery for the ${noti.account} EOS account?`);
             }
         });
+        */
     }
     if (!_.isEmpty(noti)) {
         // return noti.remove();
@@ -49,6 +52,11 @@ async function _notifyRecover(noti) {
     console.log('recover', noti);
     let recover = await Recovery.findOne({account : noti.account});
     if (!_.isEmpty(recover)) {
+        if (noti.agree === true) {
+            return smsApi.sendSMS('+' + recover.cell_hash, `${noti.account} approves the recovery request.`);
+        }
+        return smsApi.sendSMS('+' + recover.cell_hash, `${noti.account} denied the recovery request.`);
+        /*
         const decoded = jwt.decode(recover.cell_hash, noti.account);
         const accounts = Array.isArray(decoded) === true ? decoded : JSON.parse(decoded);
         return Promise.map(accounts, (account) => {
@@ -60,6 +68,7 @@ async function _notifyRecover(noti) {
             }
             return smsApi.sendSMS('+' + account.cell, `${noti.account} denied the recovery request.`);
         });
+        */
     }
     if (!_.isEmpty(noti)) {
         // return noti.remove();
