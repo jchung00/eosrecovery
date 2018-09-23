@@ -3,10 +3,10 @@
         <div class="jumbotron jumbotron-fluid mb-3 py-5">
             <div class="container">
                 <h1 class="display-6">
-                    Account Name here
+                Account Name here
                 </h1>
                 <p>
-                    Setup your account recovery partners
+                Setup your account recovery partners
                 </p>
             </div>
             <!-- End of jumbotron -->

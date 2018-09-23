@@ -3,10 +3,10 @@
         <div class="jumbotron jumbotron-fluid py-5">
             <div class="container">
                 <h1 class="display-6">
-                    Recovery Console
+                Recovery Console
                 </h1>
                 <p>
-                    Recover yor account. This Process will take 30 days for security reasons.
+                Initiate account recovery process
                 </p>
             </div>
         </div>
