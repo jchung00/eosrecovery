@@ -9,7 +9,7 @@ const Notification = mongo.Notification;
 
 async function setrecovery(action) {
     let data = Object.assign({}, {account : action.data.owner}, {cell_hash : action.data.cell_hash});
-    await Recovery.update({account : action.data.owner}, data, {upser : true});
+    await Recovery.update({account : action.data.owner}, data, {upsert : true});
     await Notification.create({account : action.data.owner, type : SEnum.NOTI_TYPE_SET});
 }
 
