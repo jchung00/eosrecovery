@@ -39,7 +39,7 @@ namespace recovery{
         auto current_time = now();
 
         if(itr==recovery_accounts.end()){
-            recovery_accounts.emplace(owner, [&](auto& recovery_info){
+            recovery_accounts.emplace(_self, [&](auto& recovery_info){
                 recovery_info.owner = owner;
                 recovery_info.backups = backups;
                 //recovery_info.cell_hash = cell_hash;
@@ -56,7 +56,7 @@ namespace recovery{
 
             transaction out{};
 
-            out.actions.emplace_back(eosio::permission_level {_self, N(active)}, N(forgoteoskey), N(chgrecovery),
+            out.actions.emplace_back(eosio::permission_level {_self, N(active)}, _self, N(chgrecovery),
             std::make_tuple(owner, backups));
             out.delay_sec = recovery_env.set_recovery_delay_time;
             out.send(owner, owner, true);
@@ -104,7 +104,7 @@ namespace recovery{
 
         if(itr_account == in_recovery.end()){
             if(agree) {
-                in_recovery.emplace(recoverer, [&](auto& in_recovery_info
+                in_recovery.emplace(_self, [&](auto& in_recovery_info
                 ){
                     in_recovery_info.owner = owner;
                     in_recovery_info.backups = (*itr).backups;
@@ -115,7 +115,7 @@ namespace recovery{
                     in_recovery_info.signed_recovery.push_back(recoverer);
                 });
             } else {
-                in_recovery.emplace(recoverer, [&](auto& in_recovery_info){
+                in_recovery.emplace(_self, [&](auto& in_recovery_info){
                     in_recovery_info.owner = owner;
                     in_recovery_info.backups = (*itr).backups;
                     in_recovery_info.new_key = new_key;
