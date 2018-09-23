@@ -13,9 +13,7 @@
 
         <div class="container mb-4">
             <div class="row">
-                <div class="col">
-
-                </div>
+                <div class="col"></div>
 
                 <div class="col-md-6">
                     <b-form @submit="onSubmit" @reset="onReset" v-if="show">
@@ -66,8 +64,7 @@
                     </b-form>
                 </div>
 
-                <div class="col">
-                </div>
+                <div class="col"></div>
             </div>
 
 
