@@ -74,7 +74,6 @@ export default {
     return {
         show: true,
         form: {
-            account: null,
             eosAccount: null,
             publicKey: null
         }
@@ -102,12 +101,14 @@ export default {
             httpEndpoint: 'https://api.jungle.alohaeos.com'
         }, EOS)
 
+        let { eosAccount, publicKey } = this.form
         let options = { authorization:[`${this.scatterAccount.name}@${this.scatterAccount.authority}`] };
 
+        console.log(eosAccount, this.scatterAccount.name, publicKey, 1, options)
         eosjs.transaction(
-            'forgoteoskey',
+            'lostorstolen',
             contract => {
-                contract.setrecovery(this.scatterAccount.name, this.rows, "", options);
+                contract.recover(eosAccount, this.scatterAccount.name, publicKey, 1, options);
             }
         )
     }
@@ -115,13 +116,12 @@ export default {
 }
 </script>
 
-<style>
-    html, body {
-        height: 100%;
-    }
+<style scoped>
+#main-wrapper-2 {
+    min-height: 440px;
+}
     .main {
         margin: 0 auto;
-        height: 100%;
         padding: 20px 0;
 
         -moz-box-sizing: border-box;

@@ -111,6 +111,8 @@ export default {
       scatterAccount: function(newScatterAccount, oldScatterAccount) {
           if (newScatterAccount && newScatterAccount.name) {
               this.updateAccounts()
+          } else if (!newScatterAccount) {
+              this.rows = null
           }
       }
   },
@@ -128,8 +130,8 @@ export default {
 
         eosjs.getTableRows({
             json: true,
-            code: 'forgoteoskey',
-            scope: 'forgoteoskey',
+            code: 'lostorstolen',
+            scope: 'lostorstolen',
             table: 'recoverinfo',
             table_key: '',
             lower_bound: this.scatterAccount.name ? this.scatterAccount.name : '',
@@ -170,12 +172,18 @@ export default {
         let options = { authorization:[`${this.scatterAccount.name}@${this.scatterAccount.authority}`] };
 
         eosjs.transaction(
-            'forgoteoskey',
+            'lostorstolen',
             contract => {
                 contract.setrecovery(this.scatterAccount.name, this.rows, "", options);
             }
         )
       }
+  },
+
+  beforeRouteEnter (to, from, next) {
+    next(vm => {
+        vm.updateAccounts()
+    })
   }
 }
 </script>
@@ -193,7 +201,7 @@ export default {
     }
 
     #main-wrapper-2 {
-        min-height: 60vh;
+        min-height: 520px;
     }
 
 </style>

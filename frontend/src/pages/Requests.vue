@@ -63,6 +63,9 @@
 </template>
 
 <script>
+import {mapGetters, mapState} from 'vuex'
+import EOS from 'eosjs'
+
     // @ is an alias to /src
     export default {
         name: 'Requests',
@@ -78,26 +81,32 @@
             }
         },
 
-        methods: {
-            addPartner () {
-                if (this.newUsername && this.newPermission) {
-                    this.rows.push({
-                        username: this.newUsername,
-                        permission: this.newPermission
-                    })
+        computed: {
+            ...mapState({
+            scatter: state => state.scatter.scatter
+            }),
+            ...mapGetters({
+            scatterAccount: 'scatter/scatterAccount'
+            })
+        },
 
-                    this.newUsername = null
-                    this.newPermission = null
-                }
-            },
+        created () {
+            let eosjs = EOS({
+                chainId: '038f4b0fc8ff18a4f0842a8f0564611f6e96e8535901dd45e43ac8691a1c4dca',
+                httpEndpoint: 'https://api.jungle.alohaeos.com'
+            })
 
-            deletePartner (index) {
-                this.rows.splice(index, 1)
-            },
-
-            savePartners () {
-
-            }
+            eosjs.getTableRows({
+                json: true,
+                code: 'lostorstolen',
+                scope: 'lostorstolen',
+                table: 'inrecovery',
+                table_key: '',
+                key_type: 'name',
+                limit: 1
+            }).then(({rows}) => {
+                console.log(rows)
+            })
         }
     }
 </script>

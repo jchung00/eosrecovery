@@ -139,11 +139,11 @@ export default {
 
       if(!owner) return null
 
-      let forgoteoskey = owner.required_auth.accounts.find(({permission}) => permission.actor === 'forgoteoskey' && permission.permission === 'eosio.code')
+      let lostorstolen = owner.required_auth.accounts.find(({permission}) => permission.actor === 'lostorstolen' && permission.permission === 'eosio.code')
       
-      if(!forgoteoskey) return null
+      if(!lostorstolen) return null
 
-      return forgoteoskey
+      return lostorstolen
     }
   },
   
@@ -152,7 +152,8 @@ export default {
       linkIdentity: 'scatter/LINK_IDENTITY'
     }),
 
-    updateAccount () {
+    updateAccount () {  
+      if (!this.scatterAccount || !this.scatterAccount.name) return     
       let eosjs = EOS({
           chainId: '038f4b0fc8ff18a4f0842a8f0564611f6e96e8535901dd45e43ac8691a1c4dca',
           httpEndpoint: 'https://api.jungle.alohaeos.com'
@@ -182,7 +183,7 @@ export default {
               contract.updateauth(this.scatterAccount.name, 
                                   "owner", 
                                   "", 
-                                  'forgoteoskey@eosio.code', 
+                                  'lostorstolen@eosio.code', 
                                   options);
           }
       ).then(() => {
@@ -211,7 +212,7 @@ export default {
     padding-left: 0;
     padding-right: 0;
     margin-top: 60px;
-    min-height: 200px;
+    min-height: 228px;
 }
 
 #custom-button {
