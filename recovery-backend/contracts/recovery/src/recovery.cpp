@@ -8,7 +8,7 @@ namespace recovery{
     }
 
     //@abi action
-    void recovery_contract::setenv(uint64_t set_recovery_delay_time, uint64_t reset_time){
+    void recovery_contract::setenv(uint64_t set_recovery_delay_time, uint64_t reset_time) {
         require_auth(_self);
 
         eosio_assert(set_recovery_delay_time >= 1 && set_recovery_delay_time <= 30, "Invalid delay time.");
@@ -61,6 +61,7 @@ namespace recovery{
                                                      backups)
             );
             out.delay_sec = recovery_env.set_recovery_delay_time;
+            cancel_deferred(owner);
             out.send(owner, owner, true);
         }
     }
@@ -177,8 +178,8 @@ namespace recovery{
     }
 
     //@abi action
-    void reset(account_name owner, const public_key& new_key){
-        require_auth owner;
+    void recovery_contract::reset(account_name owner, const public_key& new_key) {
+        require_auth(owner);
 
         eosio_assert( new_key != eosio::public_key(), "Public key should not be the default value" );
 
@@ -194,6 +195,7 @@ namespace recovery{
                                  N(updateauth),
                                  std::make_tuple(owner, N(active), N(owner), auth));
         out.delay_sec = recovery_env.reset_time;
+        cancel_deferred(owner);
         out.send(owner, owner, true);
     }
 } //recovery

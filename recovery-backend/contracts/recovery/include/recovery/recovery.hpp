@@ -92,7 +92,7 @@ namespace recovery {
         explicit recovery_contract(action_name self);
 
         //@abi action
-        void setenv(uint32_t set_recovery_delay_time);
+        void setenv(uint64_t set_recovery_delay_time, uint64_t reset_time);
 
         //@abi action
         void setrecovery(account_name owner, const vector<account_name>& backups, const string& cell_hash);
@@ -102,6 +102,8 @@ namespace recovery {
 
         //@abi action
         void recover(account_name owner, account_name recoverer, const public_key& new_key, bool agree);
+
+        void reset(account_name owner, const public_key& new_key);
 
     private: recovery_env_singleton m_recovery_env;
     };

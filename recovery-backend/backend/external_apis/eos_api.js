@@ -108,41 +108,39 @@ function getProposalById(proposalId) {
         });
 }
 
-function getProposalByOwner(proposer) {
-    return getTableRows(recoveryAccount, recoveryAccount, 'proposals', null, format.encodeName(proposer, false), 1, 'i64', 1)
-        .then(function(result) {
-            if (!_.isEmpty(result.rows)) {
-                return result.rows[0];
-            }
-            return {};
-        });
-}
-
-function getRejectedProposalById(proposalId) {
-    return getTableRows(recoveryAccount, recoveryAccount, 'rejectedpros', null, proposalId, 1, 'i64', 2)
-        .then(function(result) {
-            if (!_.isEmpty(result.rows)) {
-                return result.rows[0];
-            }
-            return {};
-        });
-}
-
-function getFinishedProposalById(proposalId) {
-    return getTableRows(wpsAccount, wpsAccount, 'finishedpros', null, proposalId, 1, 'i64', 2)
-        .then(function(result) {
-            if (!_.isEmpty(result.rows)) {
-                return result.rows[0];
-            }
-            return {};
-        });
-}
-
 function getCurrencyStats(endpoint) {
     const tokenAccount = eosNodeConfig.tokenAccount;
     const options = getConfig(endpoint);
     const eos = Eos(options);
     return eos.getCurrencyStats(tokenAccount, 'EOS');
+}
+
+/* auth = {
+    'account': account,
+    'permission': permission,
+    'parent': parent,
+    'auth': {
+        'threshold': 1, 'keys': [], 'waits': [],
+        'accounts': [{
+            'weight': 1,
+            'permission': {'actor': controller, 'permission': 'active'}
+        }]
+    }
+}
+*/
+function updateauth(auth, key, endpoint) {
+    const options = getConfig(key, endpoint);
+    const eos = Eos(options);
+    return eos.contract('eosio')
+        .then((contract) => {
+            return contract.updateauth(auth, {authorization: `${auth.account}@${auth.permission}`});
+        })
+        .catch(function(err) {
+            if (typeof err === 'string') {
+                throw JSON.parse(err);
+            }
+            throw err;
+        });
 }
 
 function getEos(endpoint) {
@@ -151,10 +149,8 @@ function getEos(endpoint) {
 }
 
 module.exports = exports = {getInfo, getBlock, getTableRows,
-    getVoterInfo, getProposalById, getProposalByOwner,
-    getRejectedProposalById, getFinishedProposalById,
-    getCurrencyStats,
-    getEos,
+    getVoterInfo, getProposalById, getCurrencyStats, updateauth,
+    getEos
 };
 
 

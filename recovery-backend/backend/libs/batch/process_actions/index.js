@@ -37,7 +37,7 @@ async function processActions() {
         batchErrLog.info({reason : 'CANNOT_GET_CHAIN_INFO'});
         return;
     }
-    let diff = chainInfo.last_irreversible_block_num - blockNum;
+    let diff = chainInfo.head_block_num - blockNum;
     batchLog.info(`blockNum : ${blockNum}`);
     batchLog.info(`diff : ${diff}`);
     if (diff <= 0) {
@@ -71,7 +71,13 @@ async function processActions() {
                 if (!_.isEmpty(transactions)) {
                     return Promise.each(transactions, async function(transaction) {
                         const trx = transaction.trx;
-                        return _processActions(transaction.trx.transaction.actions, trx, blockNum);
+                        if (_.isEmpty(trx)) {
+                            return;
+                        }
+                        if (_.isEmpty(trx.transaction)) {
+                            return;
+                        }
+                        return _processActions(trx.transaction.actions, trx, blockNum);
                     });
                 }
             })
