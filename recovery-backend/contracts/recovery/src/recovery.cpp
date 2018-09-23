@@ -131,6 +131,14 @@ namespace recovery{
 
             eosio_assert(new_key == (*itr_account).new_key, "Proposed public key is not the same.");
 
+            auto itr_signed = std::find((*itr_account).signed_recovery.begin(), (*itr_account).signed_recovery.end(), recoverer);
+
+            eosio_assert(itr_signed == (*itr_account).signed_recovery.end(), "Recoverer has already signed.");
+
+            auto itr_declined = std::find((*itr_account).declined_recovery.begin(), (*itr_account).declined_recover.end(), recoverer);
+
+            eosio_assert(itr_declined == (*itr_account).declined_recovery.end(), "Recoverer has already declined.");
+
             if(time_since_recover_start >= seconds_per_day){
                 in_recovery.erase(itr_account);
             }
